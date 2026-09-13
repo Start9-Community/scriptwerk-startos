@@ -212,7 +212,7 @@ export function isAmountUnit(v: unknown): v is AmountUnit {
 }
 
 export const SATS_PER_BTC = 100_000_000;
-export const AUTO_SATS_BELOW = 0.01;
+export const AUTO_SATS_BELOW = 0.1;
 
 export function toSats(btc: number): number {
   return Math.round((Number.isFinite(btc) ? btc : 0) * SATS_PER_BTC);
@@ -225,13 +225,13 @@ export function resolveAmountUnit(btc: number, unit: AmountUnit): "btc" | "sats"
   return n > 0 && n < AUTO_SATS_BELOW ? "sats" : "btc";
 }
 
-/** BTC string: always 8 decimals when |n| < 1, otherwise sat-accurate without rounding. */
-export function formatBtcDisplay(n: number): string {
+/** Always eight fraction digits, locale grouping (DE: 1.234,56789000 / EN: 1,234.56789000). */
+export function formatBtcDisplay(n: number, loc = "de-DE"): string {
   const v = Number.isFinite(n) ? n : 0;
-  const sign = v < 0 ? "-" : "";
-  const abs = Math.abs(v);
-  if (abs < 1) return sign + abs.toFixed(8);
-  return sign + abs.toFixed(8).replace(/0+$/, "").replace(/\.$/, "");
+  return new Intl.NumberFormat(loc, {
+    minimumFractionDigits: 8,
+    maximumFractionDigits: 8,
+  }).format(v);
 }
 
 export function formatAmount(
@@ -241,7 +241,7 @@ export function formatAmount(
 ): { text: string; suffix: "BTC" | "sats"; kind: "btc" | "sats"; label: string; exact: string } {
   const kind = resolveAmountUnit(n, unit);
   const sats = toSats(n).toLocaleString(loc);
-  const full = formatBtc(n);
+  const full = formatBtcDisplay(n, loc);
   if (kind === "sats") {
     return {
       text: sats,
@@ -251,12 +251,11 @@ export function formatAmount(
       exact: `${sats} sats · ${full} BTC`,
     };
   }
-  const shown = formatBtcDisplay(n);
   return {
-    text: shown,
+    text: full,
     suffix: "BTC",
     kind: "btc",
-    label: `${shown} BTC`,
+    label: `${full} BTC`,
     exact: `${full} BTC · ${sats} sats`,
   };
 }

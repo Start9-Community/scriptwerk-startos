@@ -109,7 +109,6 @@ export function WatchWalletPanel() {
         ) : (
           <p className="mt-1 text-2xs text-fg-muted">{t("wallet.needScan")}</p>
         )}
-        <p className="mt-2 text-2xs text-fg-subtle">{t("wallet.unitHint")}</p>
       </section>
 
       {!ready ? (
@@ -276,7 +275,7 @@ function AddrRow({
             const conf = u.height > 0 && height > 0 ? Math.max(0, height - u.height + 1) : 0;
             return (
               <li key={`${u.txid}:${u.vout}`} className="flex flex-wrap items-center gap-x-2 font-mono text-2xs text-fg-muted">
-                <AmountText btc={u.amount} coins />
+                <AmountText btc={u.amount} />
                 <span>{conf ? `${conf} conf` : t("wallet.unconf")}</span>
                 <span className="break-all">{u.txid.length > 16 ? `${u.txid.slice(0, 8)}…${u.txid.slice(-6)}` : u.txid}</span>
               </li>

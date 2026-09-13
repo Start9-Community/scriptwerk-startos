@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from "react";
-import { formatAmount, formatBtc, type AmountUnit } from "@/lib/hw/address-check";
+import { formatAmount, type AmountUnit } from "@/lib/hw/address-check";
 import { useStudio } from "@/store/studio";
 import { useT } from "@/lib/use-t";
 import { numberLocale } from "@/lib/i18n";
@@ -7,7 +7,7 @@ import { numberLocale } from "@/lib/i18n";
 function BtcIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" className={className} aria-hidden>
-      <circle cx="12" cy="12" r="12" fill="var(--color-paper)" />
+      <circle cx="12" cy="12" r="12" fill="var(--color-ink)" />
       <g
         fill="none"
         stroke="var(--color-primary)"
@@ -25,7 +25,7 @@ function BtcIcon({ className }: { className?: string }) {
 function SatsIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" className={className} aria-hidden>
-      <circle cx="12" cy="12" r="12" fill="var(--color-paper)" />
+      <circle cx="12" cy="12" r="12" fill="var(--color-ink)" />
       <g fill="var(--color-primary)">
         <rect x="6" y="6" width="12" height="2.35" rx="0.35" />
         <rect x="6" y="10.825" width="12" height="2.35" rx="0.35" />
@@ -53,13 +53,7 @@ export function AmountText({
   const unit = useStudio((s) => s.amountUnit);
   const [exact, setExact] = useState(false);
   const loc = numberLocale(locale);
-  const f = coins
-    ? {
-        text: formatBtc(btc),
-        kind: "btc" as const,
-        exact: formatAmount(btc, "btc", loc).exact,
-      }
-    : formatAmount(btc, unit, loc);
+  const f = formatAmount(btc, coins ? "btc" : unit, loc);
   return (
     <button
       type="button"
