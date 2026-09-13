@@ -1,18 +1,18 @@
 import { IMPOSSIBLE, VersionInfo } from '@start9labs/start-sdk'
 
 export const current = VersionInfo.of({
-  version: '0.1.22:0',
+  version: '0.1.23:0',
   releaseNotes: {
     en_US:
-      'Amounts: no rounding; below 1 BTC eight decimals; Auto per amount; coin list always BTC. Unit switch uses Bitcoin and satoshi icons.',
+      'Sats unit uses the three-bar satoshi mark.',
     de_DE:
-      'Beträge ohne Runden; unter 1 BTC acht Nachkommastellen; Auto je Betrag; Coins-Liste immer BTC. Einheiten als Bitcoin- und Satoshi-Icons.',
+      'Sats-Einheit mit dem Drei-Balken-Satoshi-Zeichen.',
     es_ES:
-      'Importes sin redondeo; menos de 1 BTC con ocho decimales; Auto por importe; lista de coins siempre BTC. Iconos de unidad.',
+      'La unidad sats usa la marca de tres barras.',
     pl_PL:
-      'Kwoty bez zaokrągleń; poniżej 1 BTC osiem miejsc; Auto per kwota; lista coinów zawsze BTC. Ikony jednostek.',
+      'Jednostka sats z trójbelkowym znakiem satoshi.',
     fr_FR:
-      'Montants sans arrondi ; moins de 1 BTC à huit décimales ; Auto par montant ; liste coins toujours BTC. Icônes d’unité.',
+      'Unité sats : marque satoshi à trois barres.',
   },
   migrations: {
     up: async () => {},

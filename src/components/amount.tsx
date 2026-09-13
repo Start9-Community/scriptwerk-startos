@@ -7,11 +7,11 @@ import { numberLocale } from "@/lib/i18n";
 
 function SatsIcon({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
-      <path d="M17 7.5c0-2-1.8-3.5-5-3.5H8.5" />
-      <path d="M8.5 4v16" />
-      <path d="M12.5 4v16" />
-      <path d="M8.5 12h4c3.2 0 5 1.5 5 3.5S15.7 19 12.5 19H8.5" />
+    <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden>
+      <rect x="2" y="1.5" width="20" height="4.2" />
+      <rect x="2" y="8.4" width="20" height="4.2" />
+      <rect x="2" y="15.3" width="20" height="4.2" />
+      <rect x="9.6" y="19.5" width="4.8" height="3.5" />
     </svg>
   );
 }
