@@ -77,17 +77,12 @@ function HardwareDialogBody() {
   const registerPolicy = useHardware((s) => s.registerPolicy);
   const keys = useStudio((s) => s.keys);
   const root = useStudio((s) => s.root);
-  const network = useStudio((s) => s.network);
   const reuseKeys = useStudio((s) => s.reuseKeys);
   const dialogOpen = useHardware((s) => s.open);
   const session = useHardware((s) => s.session);
-  const [path, setPath] = useState(defaultAccountPath(network));
+  const [path, setPath] = useState(defaultAccountPath());
   const [busyAction, setBusyAction] = useState<string | null>(null);
   const [walletName, setWalletName] = useState("Scriptwerk");
-
-  useEffect(() => {
-    setPath(defaultAccountPath(network));
-  }, [network]);
 
   const pending = keys.find((k) => k.id === pendingKeyId) ?? null;
   const bip = useMemo(

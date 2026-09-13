@@ -42,8 +42,6 @@ export function KeyBoard({ fill = false }: { fill?: boolean }) {
   const rawKeys = useStudio((s) => s.keys);
   const keys = rawKeys.map(normalizeKeyEntry);
   const stages = useStudio((s) => s.stages);
-  const network = useStudio((s) => s.network);
-  const setNetwork = useStudio((s) => s.setNetwork);
   const reuseKeys = useStudio((s) => s.reuseKeys);
   const removeUnusedKeys = useStudio((s) => s.removeUnusedKeys);
   const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -83,32 +81,6 @@ export function KeyBoard({ fill = false }: { fill?: boolean }) {
             {t("keys.prune")}
           </Button>
         ) : null}
-        <div role="group" aria-label={t("keys.network")} className="ml-auto flex shrink-0 flex-wrap gap-1.5">
-          <button
-            type="button"
-            aria-pressed={network === "mainnet"}
-            onClick={() => setNetwork("mainnet")}
-            className={
-              network === "mainnet"
-                ? "h-9 rounded-full bg-primary px-3 text-xs text-primary-foreground"
-                : "h-9 rounded-full border border-border px-3 text-xs text-fg-muted hover:bg-muted hover:text-fg"
-            }
-          >
-            Mainnet
-          </button>
-          <button
-            type="button"
-            aria-pressed={network === "testnet"}
-            onClick={() => setNetwork("testnet")}
-            className={
-              network === "testnet"
-                ? "h-9 rounded-full bg-primary px-3 text-xs text-primary-foreground"
-                : "h-9 rounded-full border border-border px-3 text-xs text-fg-muted hover:bg-muted hover:text-fg"
-            }
-          >
-            Testnet
-          </button>
-        </div>
       </div>
       <div className={fill ? "min-h-0 flex-1 overflow-auto px-4 pb-3" : "max-h-40 overflow-auto px-4 pb-3"}>
         {visible.length === 0 ? (

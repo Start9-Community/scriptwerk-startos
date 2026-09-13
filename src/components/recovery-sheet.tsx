@@ -101,7 +101,6 @@ function RecoveryDocument({ print = false }: { print?: boolean }) {
   const keys = useStudio((s) => s.keys);
   const stages = useStudio((s) => s.stages);
   const reuseKeys = useStudio((s) => s.reuseKeys);
-  const network = useStudio((s) => s.network);
   const nodeStatus = useBitcoind((s) => s.status);
   const lastCheck = useBitcoind((s) => s.lastCheck);
   const compiled = useMemo(
@@ -159,7 +158,7 @@ function RecoveryDocument({ print = false }: { print?: boolean }) {
           <p className="text-[10px] tracking-[0.28em] text-neutral-600 uppercase">Scriptwerk</p>
           <h2 className="font-display text-xl font-semibold">{t("recovery.heading")}</h2>
           <p className="text-xs text-neutral-700">
-            {policyName || "Scriptwerk"} · {network} · {when}
+            {policyName || "Scriptwerk"} · {when}
           </p>
         </div>
         {checksum ? (

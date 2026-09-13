@@ -22,12 +22,12 @@ export interface KeyEntry {
   note: string;
 }
 
-export function emptyKey(name: string, network: "mainnet" | "testnet" = "mainnet"): KeyEntry {
+export function emptyKey(name: string, _network?: string): KeyEntry {
   return {
     id: `k_${name}_${Math.random().toString(36).slice(2, 6)}`,
     name,
     fingerprint: "",
-    derivation: network === "testnet" ? "48'/1'/0'/2'" : "48'/0'/0'/2'",
+    derivation: "48'/0'/0'/2'",
     xpub: "",
     multipath: "<0;1>",
     childPath: "<0;1>/*",
@@ -804,14 +804,10 @@ export function parseAccountIndex(path: string): number | null {
   return Number(m[2]);
 }
 
-export function accountPathFrom(
-  path: string,
-  account: number,
-  network: "mainnet" | "testnet" = "mainnet",
-): string {
+export function accountPathFrom(path: string, account: number, _network?: string): string {
   const p = normalizePath(path);
   const m = p.match(/^48'\/(\d+)'\/(\d+)'\/(\d+)'?$/);
-  const coin = m ? m[1] : network === "testnet" ? "1" : "0";
+  const coin = m ? m[1] : "0";
   const script = m ? m[3] : "2";
   return `48'/${coin}'/${account}'/${script}'`;
 }
@@ -828,14 +824,11 @@ export function usedAccountIndices(key: KeyEntry): number[] {
   return [...used].sort((a, b) => a - b);
 }
 
-export function nextUnusedAccount(
-  key: KeyEntry,
-  network: "mainnet" | "testnet" = "mainnet",
-): { account: number; path: string } {
+export function nextUnusedAccount(key: KeyEntry, _network?: string): { account: number; path: string } {
   const used = new Set(usedAccountIndices(key));
   let account = 0;
   while (used.has(account)) account++;
-  return { account, path: accountPathFrom(key.derivation, account, network) };
+  return { account, path: accountPathFrom(key.derivation, account) };
 }
 
 export function childForAccount(key: KeyEntry, account: number): KeyChild | undefined {

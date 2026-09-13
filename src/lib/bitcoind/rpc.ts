@@ -1,8 +1,13 @@
 import { checksumOf, coreCanonicalBody, stripChecksum } from "../miniscript/checksum.ts";
 import { rewriteSortedMultiForCore } from "../miniscript/compile.ts";
 import {
+  clampUtxoCount,
+  descriptorForBranch,
   utxoScanObjects,
+  type AddressKind,
   type UtxoScanResult,
+  type WatchSnapshot,
+  buildWatchSnapshot,
 } from "../hw/address-check.ts";
 
 export interface BitcoindConfig {
@@ -33,12 +38,12 @@ export interface NodeValidateResult {
 type RpcOk = { result: unknown; error: null };
 type RpcErr = { result: null; error: { code: number; message: string } };
 
-export function defaultRpcPort(network: "mainnet" | "testnet" = "mainnet"): number {
-  return network === "testnet" ? 18332 : 8332;
+export function defaultRpcPort(_network?: string): number {
+  return 8332;
 }
 
-export function normalizeRpcUrl(raw: string, network: "mainnet" | "testnet" = "mainnet"): string {
-  const fallback = `http://127.0.0.1:${defaultRpcPort(network)}`;
+export function normalizeRpcUrl(raw: string, _network?: string): string {
+  const fallback = `http://127.0.0.1:${defaultRpcPort()}`;
   try {
     const text = raw.trim().replace(/^['"<]+|[>'"]+$/g, "");
     if (!text) return fallback;
@@ -53,11 +58,11 @@ export function normalizeRpcUrl(raw: string, network: "mainnet" | "testnet" = "m
     const token = (text.split(/\s+/)[0] ?? "").replace(/\/+$/, "");
     if (/^[a-z][a-z0-9+.-]*:\/\//i.test(token)) {
       const rest = token.replace(/^[a-z][a-z0-9+.-]*:\/\//i, "");
-      return rest ? normalizeRpcUrl(rest, network) : fallback;
+      return rest ? normalizeRpcUrl(rest) : fallback;
     }
     const host = token.replace(/^\/+/, "");
     if (!host) return fallback;
-    const withScheme = /:\d+$/.test(host) ? `http://${host}` : `http://${host}:${defaultRpcPort(network)}`;
+    const withScheme = /:\d+$/.test(host) ? `http://${host}` : `http://${host}:${defaultRpcPort()}`;
     return new URL(withScheme).origin;
   } catch {
     return fallback;
@@ -443,6 +448,30 @@ export async function deriveAddressRange(
   return raw.map(String);
 }
 
+async function electrumLookup(addresses: string[], server: string): Promise<UtxoScanResult> {
+  const unique = [...new Set(addresses.filter(Boolean))];
+  const res = await fetch("/electrum", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    cache: "no-store",
+    body: JSON.stringify({ addresses: unique, server }),
+  });
+  if (res.status === 404) throw new Error("hw.utxo.needElectrum");
+  const body = (await res.json().catch(() => null)) as {
+    result?: { unspents?: UtxoScanResult["unspents"]; total?: number; height?: number };
+    error?: { message?: string };
+  } | null;
+  if (!body) throw new Error("hw.utxo.bad");
+  if (body.error?.message) throw new Error(body.error.message);
+  if (res.status >= 400) throw new Error(body.error?.message || "hw.utxo.needElectrum");
+  const unspents = Array.isArray(body.result?.unspents) ? body.result.unspents : [];
+  return {
+    height: Number(body.result?.height) || 0,
+    total: Number(body.result?.total) || 0,
+    unspents,
+  };
+}
+
 export async function scanDescriptorUtxos(
   config: BitcoindConfig,
   descriptor: string,
@@ -456,29 +485,40 @@ export async function scanDescriptorUtxos(
     const list = await deriveAddressRange(config, desc, o.range[0], o.range[1]);
     addresses.push(...list);
   }
-  const unique = [...new Set(addresses)];
-  const res = await fetch("/electrum", {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    cache: "no-store",
-    body: JSON.stringify({ addresses: unique, server: opts.electrum ?? "" }),
-  });
-  if (res.status === 404) throw new Error("hw.utxo.needElectrum");
-  const body = (await res.json().catch(() => null)) as {
-    result?: { unspents?: UtxoScanResult["unspents"]; total?: number; height?: number };
-    error?: { message?: string };
-  } | null;
-  if (!body) throw new Error("hw.utxo.bad");
-  if (body.error?.message) throw new Error(body.error.message);
-  if (res.status >= 400) throw new Error(body.error?.message || "hw.utxo.needElectrum");
-  const unspents = Array.isArray(body.result?.unspents) ? body.result.unspents : [];
   const last = objects[0]?.range[1] ?? -1;
-  return {
-    height: Number(body.result?.height) || 0,
-    total: Number(body.result?.total) || 0,
-    unspents,
-    scanned: last + 1,
-  };
+  const res = await electrumLookup(addresses, opts.electrum ?? "");
+  return { ...res, scanned: last + 1 };
+}
+
+export async function scanWatchWallet(
+  config: BitcoindConfig,
+  descriptor: string,
+  opts: { count: number; receive: boolean; change: boolean; electrum?: string; from?: number; checksum?: string },
+): Promise<WatchSnapshot> {
+  const from = Math.max(0, Math.floor(Number(opts.from) || 0));
+  const n = clampUtxoCount(opts.count);
+  const end = from + n - 1;
+  const labeled: { address: string; kind: AddressKind; index: number }[] = [];
+  const branches: { kind: AddressKind; change: 0 | 1 }[] = [];
+  if (opts.receive) branches.push({ kind: "receive", change: 0 });
+  if (opts.change) branches.push({ kind: "change", change: 1 });
+  if (!branches.length) throw new Error("hw.utxo.none");
+  for (const b of branches) {
+    const desc = rewriteSortedMultiForCore(descriptorForBranch(descriptor, b.change));
+    const list = await deriveAddressRange(config, desc, from, end);
+    list.forEach((address, i) => labeled.push({ address, kind: b.kind, index: from + i }));
+  }
+  const res = await electrumLookup(
+    labeled.map((a) => a.address),
+    opts.electrum ?? "",
+  );
+  return buildWatchSnapshot({
+    height: res.height,
+    addresses: labeled,
+    unspents: res.unspents,
+    scanned: end + 1,
+    checksum: opts.checksum ?? checksumOf(descriptor),
+  });
 }
 
 export async function fetchElectrumTip(server?: string): Promise<number> {

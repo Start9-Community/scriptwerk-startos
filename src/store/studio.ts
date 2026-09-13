@@ -33,7 +33,7 @@ type Snapshot = {
   stages: Stage[];
   selectedId: string | null;
   selectedStageId: string | null;
-  network: "mainnet" | "testnet";
+  network: "mainnet";
   reuseKeys: boolean;
   nesting: Nesting;
   mode: StudioMode;
@@ -84,7 +84,7 @@ interface StudioState {
   stages: Stage[];
   selectedId: string | null;
   selectedStageId: string | null;
-  network: "mainnet" | "testnet";
+  network: "mainnet";
   reuseKeys: boolean;
   nesting: Nesting;
   mode: StudioMode;
@@ -94,7 +94,6 @@ interface StudioState {
   importError: string | null;
   past: Snapshot[];
   future: Snapshot[];
-  setNetwork: (n: "mainnet" | "testnet") => void;
   setReuseKeys: (v: boolean) => void;
   setNesting: (v: Nesting) => void;
   setMode: (mode: StudioMode) => void;
@@ -211,14 +210,14 @@ function mergeKeyLists(current: KeyEntry[], incoming: KeyEntry[]): KeyEntry[] {
   return out;
 }
 
-function keysForStages(stages: Stage[], current: KeyEntry[], network: "mainnet" | "testnet"): KeyEntry[] {
+function keysForStages(stages: Stage[], current: KeyEntry[]): KeyEntry[] {
   const names = orderMasterNames(stages, current);
   const masters = new Set(names);
   const byName = new Map(current.map((k) => [k.name, k]));
   const out: KeyEntry[] = [];
   for (const name of names) {
     const prev = byName.get(name);
-    out.push(prev ? normalizeKeyEntry(prev) : emptyKey(name, network));
+    out.push(prev ? normalizeKeyEntry(prev) : emptyKey(name));
   }
   for (const k of current) {
     if (names.includes(k.name)) continue;
@@ -231,7 +230,7 @@ function keysForStages(stages: Stage[], current: KeyEntry[], network: "mainnet" 
 function applyStageTree(
   stages: Stage[],
   current: KeyEntry[],
-  network: "mainnet" | "testnet",
+  _network: "mainnet",
   reuseKeys: boolean,
   nesting: Nesting = "late",
 ) {
@@ -239,7 +238,7 @@ function applyStageTree(
   return {
     stages,
     root,
-    keys: keysForStages(stages, current, network),
+    keys: keysForStages(stages, current),
     selectedId: root.id,
     nesting,
     importError: null,
@@ -306,20 +305,8 @@ export const useStudio = create<StudioState>()(
       importError: null,
       past: [],
       future: [],
-      setNetwork: (network) => {
-        const nextPath = network === "testnet" ? "48'/1'/0'/2'" : "48'/0'/0'/2'";
-        const prevPath = network === "testnet" ? "48'/0'/0'/2'" : "48'/1'/0'/2'";
-        mutate({
-          network,
-          keys: get().keys.map((k) =>
-            !k.xpub && (!k.derivation || k.derivation === prevPath)
-              ? { ...k, derivation: nextPath }
-              : k,
-          ),
-        });
-      },
       setReuseKeys: (reuseKeys) => {
-        const { stages, keys, network, nesting } = get();
+        const { stages, keys, nesting, network } = get();
         if (stages.length) {
           mutate({ reuseKeys, ...applyStageTree(stages, keys, network, reuseKeys, nesting) });
           return;
@@ -368,7 +355,7 @@ export const useStudio = create<StudioState>()(
           keys: (snap.keys ?? []).map(normalizeKeyEntry),
           root: snap.root,
           stages: snap.stages ?? [],
-          network: snap.network === "testnet" ? "testnet" : "mainnet",
+          network: "mainnet",
           reuseKeys: Boolean(snap.reuseKeys),
           nesting: snap.nesting === "early" ? "early" : "late",
           mode: snap.mode === "expert" ? "expert" : "easy",
@@ -558,7 +545,6 @@ export const useStudio = create<StudioState>()(
             mutate({
               ...adopted,
               ...(bundle.reuseKeys != null ? { reuseKeys: bundle.reuseKeys } : {}),
-              ...(bundle.network ? { network: bundle.network } : {}),
             });
           } catch (e) {
             set({
@@ -743,6 +729,7 @@ export const useStudio = create<StudioState>()(
           next.maxOlder = next.stages.some((st) => st.delay >= 65535) ? 65535 : 65534;
         }
         if (!next.policyName) next.policyName = "Scriptwerk";
+        next.network = "mainnet";
         return next;
       },
       skipHydration: true,

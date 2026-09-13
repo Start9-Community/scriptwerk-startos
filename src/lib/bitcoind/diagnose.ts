@@ -37,7 +37,7 @@ function errText(err: unknown): string {
 
 export async function diagnoseNode(
   config: BitcoindConfig,
-  network: "mainnet" | "testnet" = "mainnet",
+  network: "mainnet" = "mainnet",
 ): Promise<DiagReport> {
   const origin = typeof location !== "undefined" ? location.origin : "";
   const steps: DiagStep[] = [];

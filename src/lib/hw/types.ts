@@ -23,7 +23,7 @@ export interface HwSession {
     change: number;
     index: number;
     display: boolean;
-    coin?: "btc" | "tbtc";
+    coin?: "btc";
   }) => Promise<string>;
   close: () => Promise<void>;
 }
@@ -40,9 +40,9 @@ export function detectHid(): HidSupport {
   return "ok";
 }
 
-export function defaultAccountPath(network: "mainnet" | "testnet", account = 0): string {
-  const coin = network === "testnet" ? "1'" : "0'";
-  return `m/48'/${coin}/${account}'/2'`;
+export function defaultAccountPath(account = 0): string {
+  const n = Number.isFinite(account) ? Math.max(0, Math.floor(account)) : 0;
+  return `m/48'/0'/${n}'/2'`;
 }
 
 export function normalizeHwPath(path: string): string {

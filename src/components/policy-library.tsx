@@ -122,7 +122,7 @@ export function PolicyLibraryButton() {
                   <button type="button" className="min-w-0 flex-1 text-left" onClick={() => onLoad(p)}>
                     <div className="truncate font-medium">{p.name}</div>
                     <div className="font-mono text-[11px] text-fg-muted">
-                      {p.checksum ? `#${p.checksum}` : "—"} · {p.network} ·{" "}
+                      {p.checksum ? `#${p.checksum}` : "—"} ·{" "}
                       {new Date(p.savedAt).toLocaleString(locale === "en" ? "en-GB" : "de-DE")}
                     </div>
                   </button>

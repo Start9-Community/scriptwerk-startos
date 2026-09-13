@@ -156,8 +156,7 @@ export const useHardware = create<HardwareState>((set, get) => ({
   fetchXpub: async (path, display = true) => {
     const session = get().session;
     if (!session) throw new Error("hw.err.notConnected");
-    const network = useStudio.getState().network;
-    const p = path || defaultAccountPath(network);
+    const p = path || defaultAccountPath();
     set({ status: "busy", error: null });
     try {
       const result = await session.getXpub(p, display);
@@ -172,8 +171,7 @@ export const useHardware = create<HardwareState>((set, get) => ({
 
   fillKey: async (keyId, path) => {
     const key = useStudio.getState().keys.find((k) => k.id === keyId);
-    const network = useStudio.getState().network;
-    const derivation = path || (key?.derivation ? `m/${key.derivation.replace(/^m\//, "")}` : defaultAccountPath(network));
+    const derivation = path || (key?.derivation ? `m/${key.derivation.replace(/^m\//, "")}` : defaultAccountPath());
     const xpub = await get().fetchXpub(derivation, true);
     const err = useStudio.getState().importKeyText(keyId, xpub.origin);
     if (err) throw new Error(err);
@@ -210,7 +208,6 @@ export const useHardware = create<HardwareState>((set, get) => ({
     const session = get().session;
     if (!session) throw new Error("hw.err.notConnected");
     const hmac = await get().registerPolicy(policy);
-    const network = useStudio.getState().network;
     set({ status: "busy", error: null });
     try {
       const addr = await session.getWalletAddress({
@@ -219,7 +216,7 @@ export const useHardware = create<HardwareState>((set, get) => ({
         change,
         index,
         display,
-        coin: network === "testnet" ? "tbtc" : "btc",
+        coin: "btc",
       });
       set({ status: "ready" });
       return addr;

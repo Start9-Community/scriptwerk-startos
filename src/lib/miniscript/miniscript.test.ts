@@ -73,6 +73,8 @@ import {
   formatBtc,
   isHmacHex,
   mergeUtxoResults,
+  mergeWatchSnapshots,
+  buildWatchSnapshot,
   parseScantxoutset,
   policyCacheKey,
   utxoScanObjects,
@@ -1038,8 +1040,8 @@ describe("bip388", () => {
 
 describe("hardware paths", () => {
   it("normalizes account paths", () => {
-    assert.equal(defaultAccountPath("mainnet"), "m/48'/0'/0'/2'");
-    assert.equal(defaultAccountPath("testnet", 1), "m/48'/1'/1'/2'");
+    assert.equal(defaultAccountPath(), "m/48'/0'/0'/2'");
+    assert.equal(defaultAccountPath(1), "m/48'/0'/1'/2'");
     assert.equal(normalizeHwPath("48h/0h/0h/2h"), "m/48'/0'/0'/2'");
     assert.equal(pathToDerivation("m/48'/0'/0'/2'"), "48'/0'/0'/2'");
     assert.equal(
@@ -1122,6 +1124,36 @@ describe("ledger address check helpers", () => {
     assert.equal(parsed.height, 900000);
   });
 
+  it("builds a watch-only snapshot from labeled addresses", () => {
+    const snap = buildWatchSnapshot({
+      height: 800000,
+      scanned: 20,
+      checksum: "abcd1234",
+      addresses: [
+        { address: "bc1qaa", kind: "receive", index: 0 },
+        { address: "bc1qbb", kind: "change", index: 0 },
+        { address: "bc1qaa", kind: "receive", index: 0 },
+      ],
+      unspents: [
+        { txid: "aa", vout: 0, amount: 0.1, height: 799000, desc: "", address: "bc1qaa" },
+        { txid: "bb", vout: 1, amount: 0.05, height: 0, desc: "", address: "bc1qaa" },
+      ],
+    });
+    assert.equal(snap.addresses.length, 2);
+    assert.ok(Math.abs(snap.confirmed - 0.1) < 1e-9);
+    assert.ok(Math.abs(snap.unconfirmed - 0.05) < 1e-9);
+    assert.equal(snap.addresses[0]?.coins, 2);
+    const merged = mergeWatchSnapshots(snap, {
+      ...snap,
+      scanned: 40,
+      addresses: [{ address: "bc1qcc", kind: "receive", index: 20, amount: 0, coins: 0 }],
+      unspents: [{ txid: "cc", vout: 0, amount: 0.2, height: 790000, desc: "", address: "bc1qcc" }],
+    });
+    assert.equal(merged.addresses.length, 3);
+    assert.equal(merged.unspents.length, 3);
+    assert.equal(merged.scanned, 40);
+  });
+
   it("keeps policy HMAC keys distinct when the name changes", () => {
     const a = policyCacheKey({ name: "Scriptwerk", template: "wsh(pk(@0/**))", keys: [] });
     const b = policyCacheKey({ name: "Other", template: "wsh(pk(@0/**))", keys: [] });
@@ -1144,7 +1176,7 @@ describe("ledger address check helpers", () => {
     assert.equal(formatBtc(0.5), "0.50000000");
     assert.equal(chainMatches("mainnet", "main"), true);
     assert.equal(chainMatches("mainnet", "test"), false);
-    assert.equal(chainMatches("testnet", "signet"), false);
+    assert.equal(chainMatches("mainnet", "signet"), false);
     assert.equal(isHmacHex("00".repeat(32)), true);
     assert.equal(isHmacHex("demo"), false);
     assert.equal(

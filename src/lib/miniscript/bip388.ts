@@ -596,7 +596,7 @@ export function formatScriptwerkJson(opts: {
   descriptor: string;
   keys: KeyEntry[];
   reuseKeys: boolean;
-  network: "mainnet" | "testnet";
+  network: "mainnet";
 }): string {
   return `${JSON.stringify(
     {
@@ -635,7 +635,7 @@ export function parseScriptwerkBundle(text: string): {
   descriptor: string;
   keys: KeyEntry[];
   reuseKeys?: boolean;
-  network?: "mainnet" | "testnet";
+  network?: "mainnet";
 } | null {
   let parsed: unknown;
   try {
@@ -689,6 +689,6 @@ export function parseScriptwerkBundle(text: string): {
     descriptor,
     keys,
     reuseKeys: typeof rec.reuseKeys === "boolean" ? rec.reuseKeys : undefined,
-    network: network === "testnet" || network === "mainnet" ? network : undefined,
+    network: "mainnet",
   };
 }

@@ -10,13 +10,6 @@ async function ensureBuffer() {
   g.Buffer = Buffer;
 }
 
-function flipCoinType(path: string): string {
-  const p = normalizeHwPath(path);
-  if (p.includes("/48'/0'/")) return p.replace("/48'/0'/", "/48'/1'/");
-  if (p.includes("/48'/1'/")) return p.replace("/48'/1'/", "/48'/0'/");
-  return p;
-}
-
 function isFileNotFound(err: unknown): boolean {
   const msg = String((err as { message?: string })?.message || err);
   const code = (err as { statusCode?: number })?.statusCode;
@@ -42,34 +35,10 @@ export async function openLedgerSession(): Promise<HwSession> {
   }
   const fingerprint = String(await app.getMasterFingerprint()).toLowerCase();
   const label = info?.name ? `Ledger · ${info.name} ${info.version}` : "Ledger";
-
-  let coin: "0'" | "1'" = /test/i.test(appName) ? "1'" : "0'";
-  if (!/test/i.test(appName)) {
-    try {
-      await app.getExtendedPubkey(`m/48'/${coin}/0'/2'`, false);
-    } catch {
-      const other = coin === "0'" ? "1'" : "0'";
-      try {
-        await app.getExtendedPubkey(`m/48'/${other}/0'/2'`, false);
-        coin = other;
-      } catch {
-        /* keep guess */
-      }
-    }
-  }
+  const coin: "0'" = "0'";
 
   async function pubkey(path: string): Promise<string> {
-    const primary = normalizeHwPath(path);
-    try {
-      return await app.getExtendedPubkey(primary, true);
-    } catch (err) {
-      if (!isFileNotFound(err)) throw err;
-      const flipped = flipCoinType(primary);
-      if (flipped !== primary) {
-        return await app.getExtendedPubkey(flipped, true);
-      }
-      throw err;
-    }
+    return await app.getExtendedPubkey(normalizeHwPath(path), true);
   }
 
   function walletPolicyOf(policy: Bip388Policy) {

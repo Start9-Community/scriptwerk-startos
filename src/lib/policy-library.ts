@@ -10,7 +10,7 @@ export type PolicySnapshot = {
   keys: KeyEntry[];
   root: MsNode | null;
   stages: Stage[];
-  network: "mainnet" | "testnet";
+  network: "mainnet";
   reuseKeys: boolean;
   nesting: Nesting;
   mode: "easy" | "expert";
@@ -23,7 +23,7 @@ export type SavedPolicy = {
   name: string;
   savedAt: number;
   checksum: string;
-  network: "mainnet" | "testnet";
+  network: "mainnet";
   snapshot: PolicySnapshot;
 };
 
@@ -50,7 +50,7 @@ export function decodeLibrary(raw: string): SavedPolicy[] {
         name,
         savedAt: Number(r.savedAt) || 0,
         checksum: String(r.checksum ?? ""),
-        network: r.network === "testnet" ? "testnet" : "mainnet",
+        network: "mainnet",
         snapshot: snap as PolicySnapshot,
       });
     }
@@ -88,7 +88,7 @@ export function listPolicies(): SavedPolicy[] {
 export function savePolicy(input: {
   name: string;
   checksum: string;
-  network: "mainnet" | "testnet";
+  network: "mainnet";
   snapshot: PolicySnapshot;
   id?: string;
 }): SavedPolicy {

@@ -1,18 +1,18 @@
 import { IMPOSSIBLE, VersionInfo } from '@start9labs/start-sdk'
 
 export const current = VersionInfo.of({
-  version: '0.1.19:0',
+  version: '0.1.20:0',
   releaseNotes: {
     en_US:
-      'Named masters show (A) like children (A1). Larger descriptor QR. Script check uses the normal button inside the connected node card.',
+      'Watch-only wallet on the Descriptor tab. Testnet removed; Scriptwerk is mainnet only.',
     de_DE:
-      'Benannte Master mit (A), wie Childs (A1). Größerer Descriptor-QR. Script prüfen als normaler Button im verbundenen Node-Rahmen.',
+      'Watch-only-Wallet im Descriptor-Tab. Testnet entfernt; Scriptwerk nur noch Mainnet.',
     es_ES:
-      'Los masters con nombre muestran (A). QR de descriptor más grande. Comprobar script en la tarjeta de nodo.',
+      'Cartera watch-only en el descriptor. Sin testnet; solo mainnet.',
     pl_PL:
-      'Nazwane mastery z (A). Większy QR deskryptora. Sprawdź skrypt w ramce węzła.',
+      'Portfel watch-only w karcie deskryptora. Bez testnetu; tylko mainnet.',
     fr_FR:
-      'Les masters nommés affichent (A). QR descripteur plus grand. Vérifier le script dans le cadre du nœud.',
+      'Portefeuille watch-only dans l’onglet descripteur. Plus de testnet ; mainnet uniquement.',
   },
   migrations: {
     up: async () => {},

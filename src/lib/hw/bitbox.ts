@@ -14,10 +14,7 @@ function sanitizeName(name: string): string {
     .slice(0, 30);
 }
 
-function coinOf(explicit?: "btc" | "tbtc", policy?: Bip388Policy): "btc" | "tbtc" {
-  if (explicit) return explicit;
-  const x = policy?.keys.map((k) => k.xpub).join(" ") ?? "";
-  if (/\b[tuv]pub/i.test(x)) return "tbtc";
+function coinOf(_explicit?: "btc", _policy?: Bip388Policy): "btc" {
   return "btc";
 }
 

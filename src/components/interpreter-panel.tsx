@@ -25,6 +25,7 @@ import { useMemo, useState, memo, type ReactNode } from "react";
 import { toast } from "sonner";
 import { NodeCheckCard } from "@/components/node-rpc";
 import { SpendCheckCard } from "@/components/spend-check";
+import { WatchWalletPanel } from "@/components/watch-wallet";
 import { ScriptHighlight } from "@/components/script-view";
 
 export const InterpreterPanel = memo(function InterpreterPanel({ toolbarStart }: { toolbarStart?: ReactNode }) {
@@ -51,14 +52,17 @@ export const InterpreterPanel = memo(function InterpreterPanel({ toolbarStart }:
       <div className="flex shrink-0 items-center gap-1 px-2 pt-3">
         {toolbarStart}
         <TabsList className="min-w-0 flex-1">
-          <TabsTrigger value="create" className="flex-1 px-2 text-xs">
+          <TabsTrigger value="create" className="flex-1 px-1.5 text-xs">
             {t("read.sheet.create")}
           </TabsTrigger>
-          <TabsTrigger value="check" className="flex-1 px-2 text-xs">
+          <TabsTrigger value="check" className="flex-1 px-1.5 text-xs">
             {t("read.sheet.check")}
             {problemCount ? (
               <span className="ml-1.5 rounded-full bg-warn/20 px-1.5 font-mono text-2xs text-warn">{problemCount}</span>
             ) : null}
+          </TabsTrigger>
+          <TabsTrigger value="wallet" className="flex-1 px-1.5 text-xs">
+            {t("read.sheet.wallet")}
           </TabsTrigger>
         </TabsList>
       </div>
@@ -134,6 +138,16 @@ export const InterpreterPanel = memo(function InterpreterPanel({ toolbarStart }:
             </section>
             <SpendCheckCard />
             <NodeCheckCard />
+          </div>
+        </ScrollArea>
+      </TabsContent>
+      <TabsContent
+        value="wallet"
+        className="mt-0 min-h-0 flex-1 overflow-hidden data-[state=active]:flex data-[state=active]:flex-col"
+      >
+        <ScrollArea className="h-full">
+          <div className="p-4">
+            <WatchWalletPanel />
           </div>
         </ScrollArea>
       </TabsContent>

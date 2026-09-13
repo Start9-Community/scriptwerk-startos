@@ -73,11 +73,10 @@ export function descriptorForBranch(descriptor: string, change: 0 | 1): string {
   return descsumCreate(next);
 }
 
-export function chainMatches(network: "mainnet" | "testnet", chain: string | undefined): boolean {
+export function chainMatches(_network: string | undefined, chain: string | undefined): boolean {
   const c = (chain || "").toLowerCase();
   if (!c || c === "demo") return true;
-  if (network === "mainnet") return c === "main" || c === "bitcoin";
-  return c === "test" || c === "testnet";
+  return c === "main" || c === "bitcoin";
 }
 
 export function allRequestedMatch(rows: AddressCheckRow[]): boolean {
@@ -200,5 +199,93 @@ export function parseScantxoutset(raw: unknown): UtxoScanResult {
 
 export function formatBtc(n: number): string {
   return (Number.isFinite(n) ? n : 0).toFixed(8);
+}
+
+export function formatBtcTrim(n: number): string {
+  return formatBtc(n).replace(/0+$/, "").replace(/\.$/, "") || "0";
+}
+
+export interface WatchAddr {
+  address: string;
+  kind: AddressKind;
+  index: number;
+  amount: number;
+  coins: number;
+}
+
+export interface WatchSnapshot {
+  height: number;
+  total: number;
+  confirmed: number;
+  unconfirmed: number;
+  scanned: number;
+  checksum: string;
+  addresses: WatchAddr[];
+  unspents: UtxoHit[];
+}
+
+export function buildWatchSnapshot(opts: {
+  height: number;
+  addresses: { address: string; kind: AddressKind; index: number }[];
+  unspents: UtxoHit[];
+  scanned: number;
+  checksum?: string;
+}): WatchSnapshot {
+  const byAddr = new Map<string, { amount: number; coins: number }>();
+  let confirmed = 0;
+  let unconfirmed = 0;
+  for (const u of opts.unspents) {
+    if (u.height > 0) confirmed += Number(u.amount) || 0;
+    else unconfirmed += Number(u.amount) || 0;
+    const key = String(u.address ?? "").trim();
+    if (!key) continue;
+    const cur = byAddr.get(key) ?? { amount: 0, coins: 0 };
+    cur.amount += Number(u.amount) || 0;
+    cur.coins += 1;
+    byAddr.set(key, cur);
+  }
+  const seen = new Set<string>();
+  const addresses: WatchAddr[] = [];
+  for (const a of opts.addresses) {
+    const addr = a.address.trim();
+    if (!addr || seen.has(addr)) continue;
+    seen.add(addr);
+    const hit = byAddr.get(addr);
+    addresses.push({
+      address: addr,
+      kind: a.kind,
+      index: a.index,
+      amount: hit?.amount ?? 0,
+      coins: hit?.coins ?? 0,
+    });
+  }
+  return {
+    height: Math.max(0, Math.floor(Number(opts.height) || 0)),
+    total: confirmed + unconfirmed,
+    confirmed,
+    unconfirmed,
+    scanned: Math.max(0, Math.floor(Number(opts.scanned) || 0)),
+    checksum: opts.checksum ?? "",
+    addresses,
+    unspents: opts.unspents,
+  };
+}
+
+export function mergeWatchSnapshots(a: WatchSnapshot, b: WatchSnapshot): WatchSnapshot {
+  const merged = mergeUtxoResults(
+    { height: a.height, total: a.total, unspents: a.unspents, scanned: a.scanned },
+    { height: b.height, total: b.total, unspents: b.unspents, scanned: b.scanned },
+  );
+  return buildWatchSnapshot({
+    height: merged.height,
+    addresses: [...a.addresses, ...b.addresses],
+    unspents: merged.unspents,
+    scanned: Math.max(a.scanned, b.scanned, merged.scanned ?? 0),
+    checksum: b.checksum || a.checksum,
+  });
+}
+
+export function watchSnapshotHasActivity(s: WatchSnapshot): boolean {
+  return s.unspents.length > 0 || s.addresses.some((a) => a.coins > 0);
 }
 

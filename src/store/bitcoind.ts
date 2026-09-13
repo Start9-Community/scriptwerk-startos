@@ -10,6 +10,7 @@ import {
   type NodeProbe,
   type NodeValidateResult,
 } from "@/lib/bitcoind/rpc";
+import type { WatchSnapshot } from "@/lib/hw/address-check";
 
 export interface NodeCheck extends NodeValidateResult {
   source: "demo" | "core";
@@ -29,16 +30,18 @@ interface BitcoindState {
   trace: DiagReport | null;
   lastCheck: NodeCheck | null;
   lastUtxo: { height: number; coins: { height: number; amount: number }[] } | null;
+  lastWatch: WatchSnapshot | null;
   error: string | null;
   checking: boolean;
   setOpen: (open: boolean) => void;
   patch: (p: Partial<Pick<BitcoindState, "url" | "username" | "password" | "kind" | "electrum">>) => void;
   connectDemo: () => void;
-  connectLive: (network?: "mainnet" | "testnet") => Promise<void>;
+  connectLive: (network?: "mainnet") => Promise<void>;
   finishBridge: () => Promise<void>;
   disconnect: () => void;
-  validate: (descriptor: string, network?: "mainnet" | "testnet") => Promise<void>;
+  validate: (descriptor: string, network?: "mainnet") => Promise<void>;
   setLastUtxo: (u: { height: number; coins: { height: number; amount: number }[] } | null) => void;
+  setLastWatch: (w: WatchSnapshot | null) => void;
 }
 
 const DEMO_PROBE: NodeProbe = {
@@ -66,6 +69,7 @@ export const useBitcoind = create<BitcoindState>()(
       trace: null,
       lastCheck: null,
       lastUtxo: null,
+      lastWatch: null,
       error: null,
       checking: false,
       setOpen: (open) => set({ open }),
@@ -212,6 +216,8 @@ export const useBitcoind = create<BitcoindState>()(
           status: "idle",
           probe: null,
           lastCheck: null,
+          lastUtxo: null,
+          lastWatch: null,
           error: null,
           trace: null,
           bridge: "off",
@@ -257,6 +263,13 @@ export const useBitcoind = create<BitcoindState>()(
         }
       },
       setLastUtxo: (u) => set({ lastUtxo: u }),
+      setLastWatch: (w) =>
+        set({
+          lastWatch: w,
+          lastUtxo: w
+            ? { height: w.height, coins: w.unspents.map((u) => ({ height: u.height, amount: u.amount })) }
+            : null,
+        }),
     }),
     {
       name: "scriptwerk-bitcoind-v3",
