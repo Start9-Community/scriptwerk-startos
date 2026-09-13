@@ -205,6 +205,63 @@ export function formatBtcTrim(n: number): string {
   return formatBtc(n).replace(/0+$/, "").replace(/\.$/, "") || "0";
 }
 
+export type AmountUnit = "btc" | "sats" | "auto";
+
+export function isAmountUnit(v: unknown): v is AmountUnit {
+  return v === "btc" || v === "sats" || v === "auto";
+}
+
+export const SATS_PER_BTC = 100_000_000;
+export const AUTO_SATS_BELOW = 0.01;
+
+export function toSats(btc: number): number {
+  return Math.round((Number.isFinite(btc) ? btc : 0) * SATS_PER_BTC);
+}
+
+export function resolveAmountUnit(btc: number, unit: AmountUnit): "btc" | "sats" {
+  if (unit === "sats") return "sats";
+  if (unit === "btc") return "btc";
+  const n = Math.abs(Number.isFinite(btc) ? btc : 0);
+  return n > 0 && n < AUTO_SATS_BELOW ? "sats" : "btc";
+}
+
+/** Six significant digits, trailing zeros dropped. */
+export function formatCompactBtc(n: number): string {
+  const v = Number.isFinite(n) ? n : 0;
+  if (v === 0) return "0";
+  const sign = v < 0 ? "-" : "";
+  const abs = Math.abs(v);
+  let s = abs.toPrecision(6);
+  if (/e/i.test(s)) s = abs < 1 ? abs.toFixed(8) : String(Math.round(abs));
+  if (s.includes(".")) s = s.replace(/0+$/, "").replace(/\.$/, "");
+  return sign + s;
+}
+
+export function formatAmount(
+  n: number,
+  unit: AmountUnit,
+  loc = "de-DE",
+): { text: string; suffix: "BTC" | "sats"; label: string; exact: string } {
+  const kind = resolveAmountUnit(n, unit);
+  const sats = toSats(n).toLocaleString(loc);
+  const full = formatBtc(n);
+  if (kind === "sats") {
+    return {
+      text: sats,
+      suffix: "sats",
+      label: `${sats} sats`,
+      exact: `${sats} sats · ${full} BTC`,
+    };
+  }
+  const compact = formatCompactBtc(n);
+  return {
+    text: compact,
+    suffix: "BTC",
+    label: `${compact} BTC`,
+    exact: `${full} BTC · ${sats} sats`,
+  };
+}
+
 export interface WatchAddr {
   address: string;
   kind: AddressKind;

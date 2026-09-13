@@ -26,6 +26,7 @@ import { compileStages, defaultStages, inferNesting, inferStages, isDerivedAlias
 import { materializeWalletPolicy, parseScriptwerkBundle, parseWalletPolicy } from "@/lib/miniscript/bip388";
 import type { PolicySnapshot } from "@/lib/policy-library";
 import { isLocale, localizeMessage, t, type Locale } from "@/lib/i18n";
+import { isAmountUnit, type AmountUnit } from "@/lib/hw/address-check";
 
 type Snapshot = {
   keys: KeyEntry[];
@@ -90,6 +91,7 @@ interface StudioState {
   mode: StudioMode;
   maxOlder: MaxOlder;
   locale: Locale;
+  amountUnit: AmountUnit;
   policyName: string;
   importError: string | null;
   past: Snapshot[];
@@ -99,6 +101,7 @@ interface StudioState {
   setMode: (mode: StudioMode) => void;
   setMaxOlder: (n: MaxOlder) => void;
   setLocale: (locale: Locale) => void;
+  setAmountUnit: (unit: AmountUnit) => void;
   setPolicyName: (name: string) => void;
   loadSnapshot: (snap: PolicySnapshot) => void;
   select: (id: string | null) => void;
@@ -301,6 +304,7 @@ export const useStudio = create<StudioState>()(
       mode: "easy",
       maxOlder: 65534,
       locale: "de",
+      amountUnit: "auto",
       policyName: "Scriptwerk",
       importError: null,
       past: [],
@@ -349,6 +353,7 @@ export const useStudio = create<StudioState>()(
         mutate({ maxOlder });
       },
       setLocale: (locale) => set({ locale: isLocale(locale) ? locale : "de" }),
+      setAmountUnit: (unit) => set({ amountUnit: isAmountUnit(unit) ? unit : "auto" }),
       setPolicyName: (name) => set({ policyName: name.slice(0, 80) }),
       loadSnapshot: (snap) => {
         mutate({
@@ -717,6 +722,7 @@ export const useStudio = create<StudioState>()(
         mode: s.mode,
         maxOlder: s.maxOlder,
         locale: s.locale,
+        amountUnit: s.amountUnit,
         policyName: s.policyName,
       }),
       merge: (persisted, current) => {
@@ -729,6 +735,7 @@ export const useStudio = create<StudioState>()(
           next.maxOlder = next.stages.some((st) => st.delay >= 65535) ? 65535 : 65534;
         }
         if (!next.policyName) next.policyName = "Scriptwerk";
+        if (!isAmountUnit(next.amountUnit)) next.amountUnit = "auto";
         next.network = "mainnet";
         return next;
       },

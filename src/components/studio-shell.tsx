@@ -13,6 +13,7 @@ import { defaultStages } from "@/lib/miniscript/stages";
 import { useStudio } from "@/store/studio";
 import { useT } from "@/lib/use-t";
 import { RecoveryPrintRoot } from "@/components/recovery-sheet";
+import { NodeAutoSync } from "@/components/node-rpc";
 import { Toaster } from "sonner";
 import type { Locale } from "@/lib/i18n";
 
@@ -69,6 +70,7 @@ export function StudioShell() {
   return (
     <TooltipProvider delayDuration={200}>
       <KeyDatalist />
+      <NodeAutoSync />
       <Toaster theme="dark" position="bottom-center" />
       <div className="no-print flex h-dvh w-full min-w-0 flex-col overflow-hidden bg-bg text-fg">
         <header className="relative z-30 shrink-0 border-b border-border bg-[#0b0c0e]" style={{ touchAction: "manipulation" }}>

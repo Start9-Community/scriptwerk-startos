@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { compileDescriptorCached } from "@/lib/miniscript/compile";
+import { checksumOf } from "@/lib/miniscript/checksum";
 import { bookmarkletHref, bridgeScript, openNodeTab, originOf, watchBridge } from "@/lib/bitcoind/bridge";
 import { useBitcoind } from "@/store/bitcoind";
 import type { DiagStatus } from "@/lib/bitcoind/diagnose";
@@ -430,9 +431,11 @@ export function NodeCheckCard() {
       {checking ? <NodeLoading busy={false} /> : null}
       {error ? <p className="text-xs text-danger">{localizeMessage(locale, error)}</p> : null}
       <div className="space-y-2 rounded-lg border border-border bg-surface px-3 py-3">
-        <p className="text-xs text-fg-muted">{demo ? t("node.demoOn") : t("node.connected")}</p>
+        <div className="flex items-start justify-between gap-2">
+          <p className="pt-1.5 text-xs text-fg-muted">{demo ? t("node.demoOn") : t("node.connected")}</p>
+          {checkBtn}
+        </div>
         {lastCheck ? <CheckResult bare /> : null}
-        {checkBtn}
       </div>
     </section>
   );
@@ -649,4 +652,40 @@ function CheckResult({ bare = false }: { bare?: boolean }) {
   );
   if (bare) return <div className="space-y-0">{body}</div>;
   return <div className="rounded-lg border border-border bg-surface px-3 py-2 text-xs">{body}</div>;
+}
+
+/** When Core is live, check the descriptor and scan UTXOs once per checksum. */
+export function NodeAutoSync() {
+  const status = useBitcoind((s) => s.status);
+  const demo = useBitcoind((s) => s.demo);
+  const checking = useBitcoind((s) => s.checking);
+  const scanningWatch = useBitcoind((s) => s.scanningWatch);
+  const root = useStudio((s) => s.root);
+  const keys = useStudio((s) => s.keys);
+  const reuseKeys = useStudio((s) => s.reuseKeys);
+  const compiled = compileDescriptorCached(root, keys, reuseKeys);
+  const cs = compiled?.ok ? checksumOf(compiled.descriptor) : "";
+  const desc = compiled?.ok ? compiled.descriptor : "";
+  const last = useRef("");
+
+  useEffect(() => {
+    if (status !== "ready" || demo || !desc || !cs) {
+      if (status !== "ready") last.current = "";
+      return;
+    }
+    const st = useBitcoind.getState();
+    if (last.current === cs) return;
+    const checkHit = st.lastCheck?.exportChecksum === cs || st.lastCheck?.checksum === cs;
+    const watchHit = st.lastWatch?.checksum === cs;
+    if (checkHit && watchHit) {
+      last.current = cs;
+      return;
+    }
+    if (st.checking || st.scanningWatch) return;
+    last.current = cs;
+    if (!checkHit) void st.validate(desc);
+    if (!watchHit) void st.scanWatch(desc).catch(() => undefined);
+  }, [status, demo, cs, desc, checking, scanningWatch]);
+
+  return null;
 }

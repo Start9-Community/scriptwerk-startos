@@ -31,6 +31,7 @@ export const PolicyGraph = memo(function PolicyGraph() {
   const reuseKeys = useStudio((s) => s.reuseKeys);
   const selectedId = useStudio((s) => s.selectedId);
   const selectedStageId = useStudio((s) => s.selectedStageId);
+  const policyName = useStudio((s) => s.policyName);
   const select = useStudio((s) => s.select);
   const layout = useMemo(() => layoutTree(root, locale), [root, locale]);
   const attention = useMemo(() => attentionIds(root, keys, reuseKeys), [root, keys, reuseKeys]);
@@ -54,12 +55,17 @@ export const PolicyGraph = memo(function PolicyGraph() {
 
   return (
     <div className="relative flex h-full min-h-0 w-full min-w-0 flex-col">
-      {activeStage ? (
-        <div className="pointer-events-none absolute top-3 left-3 z-10 rounded-full bg-primary px-3 py-1 font-mono text-2xs text-primary-foreground shadow-md">
-          {t("graph.stagePath", { n: stageIndex + 1 })}
-          <span className="ml-2 opacity-80">{blocksWhen(activeStage.delay, locale)}</span>
-        </div>
-      ) : null}
+      <div className="flex shrink-0 items-center justify-between gap-3 border-b border-border bg-ink px-4 py-2">
+        <h2 className="min-w-0 truncate font-display text-lg tracking-tight text-fg">
+          {policyName.trim() || "Scriptwerk"}
+        </h2>
+        {activeStage ? (
+          <div className="shrink-0 rounded-full bg-primary px-3 py-1 font-mono text-2xs text-primary-foreground">
+            {t("graph.stagePath", { n: stageIndex + 1 })}
+            <span className="ml-2 opacity-80">{blocksWhen(activeStage.delay, locale)}</span>
+          </div>
+        ) : null}
+      </div>
       {root ? (
         <ZoomPane
           contentWidth={Math.max(layout.width, 320)}

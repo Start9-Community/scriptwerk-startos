@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { keyHeadline } from "@/lib/miniscript/keys";
 import { coinHeightFromConfirms, evaluateSpendPaths } from "@/lib/miniscript/spend-check";
-import { formatBtc } from "@/lib/hw/address-check";
+import { formatAmount } from "@/lib/hw/address-check";
 import { fetchElectrumTip } from "@/lib/bitcoind/rpc";
 import { useBitcoind } from "@/store/bitcoind";
 import { useStudio } from "@/store/studio";
@@ -12,12 +12,11 @@ import { Label } from "@/components/ui/label";
 import { useT } from "@/lib/use-t";
 import { numberLocale } from "@/lib/i18n";
 
-function btc(n: number): string {
-  return formatBtc(n).replace(/0+$/, "").replace(/\.$/, "") || "0";
-}
-
 export function SpendCheckCard() {
   const { t, locale } = useT();
+  const nloc = numberLocale(locale);
+  const unit = useStudio((s) => s.amountUnit);
+  const amt = (n: number) => formatAmount(n, unit, nloc).label;
   const keys = useStudio((s) => s.keys);
   const stages = useStudio((s) => s.stages);
   const reuseKeys = useStudio((s) => s.reuseKeys);
@@ -86,8 +85,6 @@ export function SpendCheckCard() {
     setPresent((cur) => (cur.includes(name) ? cur.filter((x) => x !== name) : [...cur, name]));
   }
 
-  const nloc = numberLocale(locale);
-
   return (
     <section className="space-y-3">
       <h2 className="text-2xs font-medium tracking-[0.14em] text-fg-subtle uppercase">{t("spend.title")}</h2>
@@ -143,7 +140,7 @@ export function SpendCheckCard() {
         </div>
         {coins.length ? (
           <p className="text-2xs text-fg-muted">
-            {t("spend.utxoCount", { n: coins.length, btc: btc(report.total) })}
+            {t("spend.utxoCount", { n: coins.length, btc: amt(report.total) })}
             {report.confirmations
               ? ` · ${t("spend.oldest", { n: report.confirmations.toLocaleString(nloc) })}`
               : ""}
@@ -196,7 +193,7 @@ export function SpendCheckCard() {
                   <Badge variant={s.canSpendNow ? "ok" : s.canSign ? "warn" : "danger"}>
                     {s.canSpendNow
                       ? s.amountNow > 0
-                        ? t("spend.nowBtc", { btc: btc(s.amountNow) })
+                        ? t("spend.nowBtc", { btc: amt(s.amountNow) })
                         : t("spend.now")
                       : s.canSign
                         ? t("spend.wait", { n: s.blocksLeft.toLocaleString(nloc) })
@@ -206,7 +203,7 @@ export function SpendCheckCard() {
                 {s.canSign && s.amountNow > 0 && s.nextAmount > 0 ? (
                   <p className="mt-1 text-2xs text-fg">
                     {t("spend.nextOpens", {
-                      btc: btc(s.nextAmount),
+                      btc: amt(s.nextAmount),
                       n: s.nextBlocks.toLocaleString(nloc),
                     })}
                   </p>
@@ -216,7 +213,7 @@ export function SpendCheckCard() {
                       ? t("spend.firstOpens", {
                           n: s.blocksLeft.toLocaleString(nloc),
                           h: s.opensAt.toLocaleString(nloc),
-                          btc: btc(s.nextAmount || report.total),
+                          btc: amt(s.nextAmount || report.total),
                         })
                       : t("spend.lockLeft", {
                           n: s.blocksLeft.toLocaleString(nloc),

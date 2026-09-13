@@ -6,11 +6,13 @@ import { corsBlocked } from "@/lib/bitcoind/bridge";
 import {
   normalizeRpcUrl,
   probeNode,
+  scanWatchWallet,
   validateOnNode,
   type NodeProbe,
   type NodeValidateResult,
 } from "@/lib/bitcoind/rpc";
-import type { WatchSnapshot } from "@/lib/hw/address-check";
+import { clampUtxoCount, mergeWatchSnapshots, UTXO_SCAN_CAP, type WatchSnapshot } from "@/lib/hw/address-check";
+import { checksumOf } from "@/lib/miniscript/checksum";
 
 export interface NodeCheck extends NodeValidateResult {
   source: "demo" | "core";
@@ -33,6 +35,7 @@ interface BitcoindState {
   lastWatch: WatchSnapshot | null;
   error: string | null;
   checking: boolean;
+  scanningWatch: boolean;
   setOpen: (open: boolean) => void;
   patch: (p: Partial<Pick<BitcoindState, "url" | "username" | "password" | "kind" | "electrum">>) => void;
   connectDemo: () => void;
@@ -40,6 +43,7 @@ interface BitcoindState {
   finishBridge: () => Promise<void>;
   disconnect: () => void;
   validate: (descriptor: string, network?: "mainnet") => Promise<void>;
+  scanWatch: (descriptor: string, opts?: { count?: number }) => Promise<WatchSnapshot | null>;
   setLastUtxo: (u: { height: number; coins: { height: number; amount: number }[] } | null) => void;
   setLastWatch: (w: WatchSnapshot | null) => void;
 }
@@ -72,6 +76,7 @@ export const useBitcoind = create<BitcoindState>()(
       lastWatch: null,
       error: null,
       checking: false,
+      scanningWatch: false,
       setOpen: (open) => set({ open }),
       patch: (p) => set(p),
       connectDemo: () =>
@@ -263,6 +268,38 @@ export const useBitcoind = create<BitcoindState>()(
         }
       },
       setLastUtxo: (u) => set({ lastUtxo: u }),
+      scanWatch: async (descriptor, opts) => {
+        const { demo, status, url, username, password, electrum } = get();
+        if (status !== "ready" || demo) return null;
+        const n = clampUtxoCount(opts?.count ?? 20);
+        const checksum = checksumOf(descriptor);
+        set({ scanningWatch: true });
+        try {
+          const cfg = { url: normalizeRpcUrl(url), username, password };
+          let from = 0;
+          let merged: WatchSnapshot | null = null;
+          while (from < UTXO_SCAN_CAP) {
+            const next = await scanWatchWallet(cfg, descriptor, {
+              count: n,
+              receive: true,
+              change: true,
+              electrum,
+              from,
+              checksum,
+            });
+            merged = merged ? mergeWatchSnapshots(merged, next) : next;
+            from += n;
+            merged.scanned = Math.min(from, UTXO_SCAN_CAP);
+            get().setLastWatch(merged);
+            if (!next.unspents.length) break;
+          }
+          set({ scanningWatch: false });
+          return merged;
+        } catch (e) {
+          set({ scanningWatch: false });
+          throw e;
+        }
+      },
       setLastWatch: (w) =>
         set({
           lastWatch: w,
