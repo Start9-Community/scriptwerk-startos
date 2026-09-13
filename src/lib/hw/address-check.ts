@@ -225,23 +225,20 @@ export function resolveAmountUnit(btc: number, unit: AmountUnit): "btc" | "sats"
   return n > 0 && n < AUTO_SATS_BELOW ? "sats" : "btc";
 }
 
-/** Six significant digits, trailing zeros dropped. */
-export function formatCompactBtc(n: number): string {
+/** BTC string: always 8 decimals when |n| < 1, otherwise sat-accurate without rounding. */
+export function formatBtcDisplay(n: number): string {
   const v = Number.isFinite(n) ? n : 0;
-  if (v === 0) return "0";
   const sign = v < 0 ? "-" : "";
   const abs = Math.abs(v);
-  let s = abs.toPrecision(6);
-  if (/e/i.test(s)) s = abs < 1 ? abs.toFixed(8) : String(Math.round(abs));
-  if (s.includes(".")) s = s.replace(/0+$/, "").replace(/\.$/, "");
-  return sign + s;
+  if (abs < 1) return sign + abs.toFixed(8);
+  return sign + abs.toFixed(8).replace(/0+$/, "").replace(/\.$/, "");
 }
 
 export function formatAmount(
   n: number,
   unit: AmountUnit,
   loc = "de-DE",
-): { text: string; suffix: "BTC" | "sats"; label: string; exact: string } {
+): { text: string; suffix: "BTC" | "sats"; kind: "btc" | "sats"; label: string; exact: string } {
   const kind = resolveAmountUnit(n, unit);
   const sats = toSats(n).toLocaleString(loc);
   const full = formatBtc(n);
@@ -249,15 +246,17 @@ export function formatAmount(
     return {
       text: sats,
       suffix: "sats",
+      kind: "sats",
       label: `${sats} sats`,
       exact: `${sats} sats · ${full} BTC`,
     };
   }
-  const compact = formatCompactBtc(n);
+  const shown = formatBtcDisplay(n);
   return {
-    text: compact,
+    text: shown,
     suffix: "BTC",
-    label: `${compact} BTC`,
+    kind: "btc",
+    label: `${shown} BTC`,
     exact: `${full} BTC · ${sats} sats`,
   };
 }

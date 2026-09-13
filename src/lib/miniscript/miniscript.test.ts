@@ -72,7 +72,7 @@ import {
   descriptorForBranch,
   formatBtc,
   formatAmount,
-  formatCompactBtc,
+  formatBtcDisplay,
   resolveAmountUnit,
   toSats,
   isHmacHex,
@@ -1178,13 +1178,17 @@ describe("ledger address check helpers", () => {
     assert.equal(clampUtxoCount(20), 20);
     assert.equal(clampUtxoCount(9999), 1000);
     assert.equal(formatBtc(0.5), "0.50000000");
-    assert.equal(formatCompactBtc(1.23456789), "1.23457");
-    assert.equal(formatCompactBtc(0.0123456), "0.0123456");
+    assert.equal(formatBtcDisplay(0.5), "0.50000000");
+    assert.equal(formatBtcDisplay(0.00123456), "0.00123456");
+    assert.equal(formatBtcDisplay(1.5), "1.5");
+    assert.equal(formatBtcDisplay(1.23456789), "1.23456789");
     assert.equal(toSats(0.01), 1_000_000);
     assert.equal(resolveAmountUnit(0.009, "auto"), "sats");
     assert.equal(resolveAmountUnit(0.01, "auto"), "btc");
-    assert.equal(formatAmount(0.009, "auto", "en-US").suffix, "sats");
-    assert.equal(formatAmount(1.23456789, "btc", "en-US").text, "1.23457");
+    assert.equal(resolveAmountUnit(2, "auto"), "btc");
+    assert.equal(formatAmount(0.009, "auto", "en-US").kind, "sats");
+    assert.equal(formatAmount(1.23456789, "btc", "en-US").text, "1.23456789");
+    assert.equal(formatAmount(0.5, "btc", "en-US").text, "0.50000000");
     assert.equal(formatAmount(0.5, "sats", "en-US").text, "50,000,000");
     assert.equal(chainMatches("mainnet", "main"), true);
     assert.equal(chainMatches("mainnet", "test"), false);

@@ -596,7 +596,7 @@ const de: Record<string, string> = {
   "wallet.unitBtc": "BTC",
   "wallet.unitSats": "sats",
   "wallet.unitAuto": "Auto",
-  "wallet.unitHint": "Auto: unter 0,01 BTC als Sats. Sechs Stellen. Antippen zeigt den genauen Betrag.",
+  "wallet.unitHint": "Auto: jeder Betrag für sich — unter 0,01 BTC als Sats. Unter 1 BTC acht Nachkommastellen. Antippen zeigt den genauen Wert.",
 };
 
 const en: Record<string, string> = {
@@ -1191,7 +1191,7 @@ const en: Record<string, string> = {
   "wallet.unitBtc": "BTC",
   "wallet.unitSats": "sats",
   "wallet.unitAuto": "Auto",
-  "wallet.unitHint": "Auto: below 0.01 BTC as sats. Six digits. Tap for the exact amount.",
+  "wallet.unitHint": "Auto: each amount on its own — below 0.01 BTC as sats. Below 1 BTC shows eight decimals. Tap for the exact value.",
 };
 
 export function t(locale: Locale, key: string, vars?: Record<string, string | number>): string {

@@ -201,7 +201,7 @@ export function WatchWalletPanel() {
                   return (
                     <tr key={`${u.txid}:${u.vout}`}>
                       <td className="py-0.5 pr-2 align-top">
-                        <AmountText btc={u.amount} />
+                        <AmountText btc={u.amount} coins />
                       </td>
                       <td className="max-w-[8rem] py-0.5 pr-2 align-top">
                         <span className="inline-flex max-w-full items-start gap-0.5">
@@ -276,7 +276,7 @@ function AddrRow({
             const conf = u.height > 0 && height > 0 ? Math.max(0, height - u.height + 1) : 0;
             return (
               <li key={`${u.txid}:${u.vout}`} className="flex flex-wrap items-center gap-x-2 font-mono text-2xs text-fg-muted">
-                <AmountText btc={u.amount} />
+                <AmountText btc={u.amount} coins />
                 <span>{conf ? `${conf} conf` : t("wallet.unconf")}</span>
                 <span className="break-all">{u.txid.length > 16 ? `${u.txid.slice(0, 8)}…${u.txid.slice(-6)}` : u.txid}</span>
               </li>
