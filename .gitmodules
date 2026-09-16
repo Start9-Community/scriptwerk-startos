@@ -1,0 +1,3 @@
+[submodule "scriptwerk"]
+	path = scriptwerk
+	url = https://github.com/kwadde-cmyk/scriptwerk-startos
