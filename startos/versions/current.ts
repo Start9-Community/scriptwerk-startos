@@ -1,18 +1,18 @@
 import { IMPOSSIBLE, VersionInfo } from '@start9labs/start-sdk'
 
 export const current = VersionInfo.of({
-  version: '0.1.26:0',
+  version: '0.1.28:0',
   releaseNotes: {
     en_US:
-      'Frozen import keeps descriptors that do not map onto stages as watch-only (Taproot still rejected). Wallet tab lists Electrum coins with age and spendability, plus BIP-329 labels.',
+      'Wallet no longer shows another policy’s balance after addresses change. New designs are titled New / unsaved; a saved policy you edit shows modified until you save.',
     de_DE:
-      'Eingefrorener Import: Descriptoren, die nicht auf Stufen passen, bleiben Watch-only (Taproot weiterhin abgelehnt). Wallet-Tab: Electrum-Coins mit Alter und Spendbarkeit, plus BIP-329-Labels.',
+      'Die Wallet zeigt nach Adresswechsel nicht mehr den Stand einer anderen Policy. Neue Designs heißen Neu / ungespeichert; eine gespeicherte, die du änderst, zeigt geändert bis zum Speichern.',
     es_ES:
-      'Importación congelada: descriptores que no coinciden con las etapas quedan solo-lectura (Taproot sigue rechazado). Pestaña Wallet: UTXOs de Electrum con antigüedad y gastabilidad, más etiquetas BIP-329.',
+      'La cartera no muestra el saldo de otra política al cambiar las direcciones. Los diseños nuevos aparecen como New / unsaved; una guardada que editas muestra modified hasta guardar.',
     pl_PL:
-      'Zamrożony import: deskryptory poza stopniami zostają watch-only (Taproot nadal odrzucany). Zakładka Wallet: UTXO z Electrum z wiekiem i możliwością wydania oraz etykiety BIP-329.',
+      'Portfel nie pokazuje salda innej polityki po zmianie adresów. Nowe projekty to New / unsaved; zapisana i zmieniona pokazuje modified do zapisu.',
     fr_FR:
-      'Import figé : les descripteurs hors étapes restent en lecture seule (Taproot toujours refusé). Onglet Wallet : UTXO Electrum avec âge et dépensabilité, plus étiquettes BIP-329.',
+      'Le portefeuille n’affiche plus le solde d’une autre politique après un changement d’adresses. Un nouveau design s’intitule New / unsaved ; une politique enregistrée puis modifiée affiche modified jusqu’à l’enregistrement.',
   },
   migrations: {
     up: async ({ effects }) => {},
