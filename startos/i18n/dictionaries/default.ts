@@ -10,6 +10,17 @@ const dict = {
   // interfaces.ts
   'Web UI': 4,
   'The Scriptwerk miniscript studio': 5,
+
+  // actions/setPassword.ts, init/watchPassword.ts
+  'Reset Web UI Password': 6,
+  'Set Web UI Password': 7,
+  'Generate the password for the Scriptwerk web interface. The username is always "admin". Running this again replaces the existing password.': 8,
+  'The current password stops working as soon as this runs.': 9,
+  'Web UI Password Set': 10,
+  'Your browser asks for these the next time you open the Web UI. Save the password now — it is not shown again.': 11,
+  Username: 12,
+  Password: 13,
+  'Scriptwerk has no login of its own and can reach your Bitcoin node — set a password before starting it': 14,
 } as const
 
 /**
