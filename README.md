@@ -76,6 +76,8 @@ Three optional dependencies; the service runs without any of them.
 | Fulcrum    | No       | `primary`, `sync-progress`  | none                                 | Coin lookup for a watch-only policy — preferred            |
 | Electrs    | No       | `electrs`, `sync`           | none                                 | Coin lookup when Fulcrum is not installed                  |
 
+Bitcoin must be at least 28.4:29, 29.4:16, 30.3:16 or 31.1:16 on its major line, or Bitcoin Knots (pre-RDTS) 29.3:29; Fulcrum at least 2.1.1:8; Electrs at least 0.11.1:11.
+
 Each is declared as current only while it is installed, so an absent optional dependency raises no warning. Bitcoin is reached at its RPC binding's bridge address and authenticated with its cookie; no RPC user is created on the node. When both Electrum servers are installed the package picks Fulcrum, and there is no setting to prefer Electrs. Dependencies resolved after Scriptwerk starts heal it: installing or removing one restarts the service once.
 
 ## Network Access and Interfaces
