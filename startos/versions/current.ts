@@ -1,18 +1,13 @@
 import { IMPOSSIBLE, VersionInfo } from '@start9labs/start-sdk'
 
 export const current = VersionInfo.of({
-  version: '0.1.33:0',
+  version: '0.1.33:1',
   releaseNotes: {
-    en_US:
-      'Relative lock presets are 1 month, 1 year and max; a new stage starts empty. JSON export includes BIP-329 labels. Electrum reset is its own button. Docker/web installs with preconfigured RPC now open the node bridge; only this StartOS package uses the silent server proxy. Cleanup: unused props gone, spend-check coins stable.',
-    de_DE:
-      'Relative Zeitsperren: 1 Monat, 1 Jahr, Max; neue Stufe startet leer. JSON-Export inkl. BIP-329-Labels. Eigener Knopf Electrum zurücksetzen. Docker-/Web-Install mit voreingestelltem RPC lädt die Node-Brücke; nur dieses StartOS-Paket spricht still über den Server-Proxy. Aufräumen: unbenutzte Props weg, Spend-Check-Coins stabil.',
-    es_ES:
-      'Presets relativos 1 mes / 1 año / máx.; etapa nueva vacía. Export JSON con etiquetas BIP-329. Reset Electrum aparte. Docker/web con RPC preconfigurado abre el puente; solo este paquete StartOS usa el proxy silencioso. Limpieza interna.',
-    pl_PL:
-      'Presety względne 1 miesiąc / 1 rok / max; nowa scena pusta. Eksport JSON z BIP-329. Osobny reset Electrum. Docker/web z RPC ładuje mostek; tylko ten pakiet StartOS używa cichego proxy. Porządki wewnętrzne.',
-    fr_FR:
-      'Préréglages relatifs 1 mois / 1 an / max ; nouvelle étape vide. Export JSON avec libellés BIP-329. Reset Electrum séparé. Docker/web avec RPC préconfiguré charge le pont ; seul ce paquet StartOS utilise le proxy silencieux. Nettoyage interne.',
+    en_US: `- Bitcoin must be at least 28.4:29, 29.4:16, 30.3:16 or 31.1:16, depending on its major version. Bitcoin Knots (pre-RDTS) 29.3:29 or later also works.`,
+    de_DE: `- Bitcoin muss je nach Hauptversion mindestens 28.4:29, 29.4:16, 30.3:16 oder 31.1:16 sein. Bitcoin Knots (pre-RDTS) ab 29.3:29 funktioniert ebenfalls.`,
+    es_ES: `- Bitcoin debe ser al menos la versión 28.4:29, 29.4:16, 30.3:16 o 31.1:16, según su versión principal. También funciona Bitcoin Knots (pre-RDTS) 29.3:29 o posterior.`,
+    pl_PL: `- Bitcoin musi być co najmniej w wersji 28.4:29, 29.4:16, 30.3:16 lub 31.1:16, zależnie od wersji głównej. Działa też Bitcoin Knots (pre-RDTS) 29.3:29 lub nowszy.`,
+    fr_FR: `- Bitcoin doit être au moins en version 28.4:29, 29.4:16, 30.3:16 ou 31.1:16, selon sa version majeure. Bitcoin Knots (pre-RDTS) 29.3:29 ou plus récent fonctionne aussi.`,
   },
   migrations: {
     up: async ({ effects }) => {},
