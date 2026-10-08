@@ -30,7 +30,7 @@ Export a descriptor, BSMS or Scriptwerk JSON from the **Import / Export** view b
 
 ### Transactions
 
-The **Tx** view builds a payment from scanned coins, or one recovery transaction per coin whose timelock has opened. Finalize exports or imports the PSBT as a file or a QR video, or signs it over USB. Sending hands the finished transaction to Bitcoin, or saves it as a file. The policy must already be registered on the Ledger or BitBox. No seed is stored on the server or in the browser.
+The **Tx** view builds a payment from scanned coins, or one recovery transaction per coin whose timelock has opened. Finalize exports the PSBT as a file or a static QR, imports it as a file or a QR video, or signs it over USB. Sending hands the finished transaction to Bitcoin, or saves it as a file. The policy must already be registered on the Ledger or BitBox. No seed is stored on the server or in the browser.
 
 ## Limitations
 
