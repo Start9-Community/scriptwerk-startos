@@ -12,9 +12,10 @@ Nothing you design is stored on the server. Policies, key names and saved design
 
 ## Getting set up
 
-1. Open the **Web UI** from the Dashboard tab.
-2. Build a policy from the **Stages** tab, or import a descriptor, miniscript, BSMS or Scriptwerk JSON file.
-3. To check the policy against your node, open the **Node** dialog: with Bitcoin installed it is already connected. **Unlock** lets you point it at a different node; **Reset** returns to the one on this server.
+1. Run **Set Web UI Password** (StartOS asks you to before the first start) and save the password it shows. The username is `admin`.
+2. Start the service and open the **Web UI** from the Dashboard tab; your browser asks for the username and password.
+3. Build a policy from the **Stages** tab, or import a descriptor, miniscript, BSMS or Scriptwerk JSON file.
+4. To check the policy against your node, open the **Node** dialog: with Bitcoin installed it is already connected. **Unlock** lets you point it at a different node; **Reset** returns to the one on this server.
 
 Install Bitcoin, Fulcrum or Electrs at any time — Scriptwerk restarts on its own to pick them up.
 
@@ -26,9 +27,13 @@ Registering a policy on a Ledger or BitBox, and scanning QR codes, needs a deskt
 
 ### Keeping your work
 
-Export a descriptor, BSMS or Scriptwerk JSON from the **Import / Export** view before clearing browser data or switching devices. A StartOS backup of this service contains nothing — there is nothing on the server to back up.
+Export a descriptor, BSMS or Scriptwerk JSON from the **Import / Export** view before clearing browser data or switching devices. A StartOS backup of this service holds only the Web UI password — your designs are not on the server.
+
+### Transactions
+
+The **Tx** view builds a payment from scanned coins, or one recovery transaction per coin whose timelock has opened. Finalize exports the PSBT as a file or a static QR, imports it as a file or a QR video, or signs it over USB. Sending hands the finished transaction to Bitcoin, or saves it as a file. The policy must already be registered on the Ledger or BitBox. No seed is stored on the server or in the browser.
 
 ## Limitations
 
-- Scriptwerk is a design and checking tool, not a wallet or a signer. Verify the descriptor and checksum on Bitcoin and on the device before coins sit on a policy.
+- Scriptwerk does not hold a seed or coins. Signing stays on a Ledger or BitBox. Verify the descriptor and checksum on Bitcoin and on the device before coins sit on a policy.
 - Only SegWit `wsh()` miniscript policies; Taproot is not supported.

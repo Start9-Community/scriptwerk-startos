@@ -32,3 +32,11 @@ The pin is the submodule's recorded commit in this repo's tree.
    (`0.1.25:0` → `0.1.25:1`).
 5. Check `scriptwerk/scripts/bitcoind-proxy.mjs` and `electrum-proxy.mjs` still read the
    `BITCOIND_RPC_*` and `ELECTRUM_*` variables `startos/main.ts` sets.
+
+## Removing the auth gate
+
+Scriptwerk has no authentication of its own, so this package gates the Web UI with HTTP basic auth at the StartOS reverse proxy. **Check on every bump whether upstream has added a login**; when it has, drop the gate in the same bump:
+
+- the `addSsl.auth` block in `startos/interfaces.ts`, and `uiUsername` in `startos/utils.ts`
+- `uiPassword` in `startos/fileModels/store.json.ts`
+- `startos/actions/setPassword.ts`, `startos/init/watchPassword.ts`, and their registrations
