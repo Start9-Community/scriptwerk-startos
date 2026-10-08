@@ -1,23 +1,23 @@
 export const short = {
-  en_US: 'Design and check Bitcoin miniscript wallet policies',
-  es_ES: 'Diseña y comprueba políticas de monedero miniscript de Bitcoin',
-  de_DE: 'Bitcoin-Miniscript-Wallet-Policies entwerfen und prüfen',
-  pl_PL: 'Projektuj i sprawdzaj polityki portfeli miniscript Bitcoina',
+  en_US: 'Design Bitcoin miniscript policies, then build and send',
+  es_ES: 'Diseña políticas miniscript de Bitcoin, luego construye y envía',
+  de_DE: 'Bitcoin-Miniscript-Policies entwerfen, dann bauen und senden',
+  pl_PL: 'Projektuj polityki miniscript Bitcoina, potem buduj i wysyłaj',
   fr_FR:
-    'Concevez et vérifiez des politiques de portefeuille miniscript Bitcoin',
+    'Concevez des politiques miniscript Bitcoin, puis construisez et envoyez',
 }
 
 export const long = {
   en_US:
-    'Scriptwerk is a studio for Bitcoin miniscript wallets. Build a spending policy in stages, inspect the descriptor and its checksum, assign keys, print a recovery sheet, and register the policy on a Ledger or BitBox. With Bitcoin on this server it checks descriptors against your own node, and with Fulcrum or Electrs it can list the coins a watch-only version of the policy holds.',
+    'Scriptwerk is a studio for Bitcoin miniscript wallets. Build a spending policy in stages, inspect the descriptor and its checksum, assign keys, print a recovery sheet, and register the policy on a Ledger or BitBox. With Bitcoin on this server it checks descriptors against your own node, and with Fulcrum or Electrs it can list the coins a watch-only version of the policy holds. From those coins you can build a transaction, sign it on the device, and send it. No seed is stored.',
   es_ES:
-    'Scriptwerk es un estudio para monederos miniscript de Bitcoin. Construye una política de gasto por etapas, inspecciona el descriptor y su suma de verificación, asigna claves, imprime una hoja de recuperación y registra la política en un Ledger o BitBox. Con Bitcoin en este servidor comprueba los descriptores con tu propio nodo, y con Fulcrum o Electrs puede listar las monedas que posee una versión de solo lectura de la política.',
+    'Scriptwerk es un estudio para monederos miniscript de Bitcoin. Construye una política de gasto por etapas, inspecciona el descriptor y su suma de verificación, asigna claves, imprime una hoja de recuperación y registra la política en un Ledger o BitBox. Con Bitcoin en este servidor comprueba los descriptores con tu propio nodo, y con Fulcrum o Electrs puede listar las monedas que posee una versión de solo lectura de la política. Con esas monedas puedes construir una transacción, firmarla en el dispositivo y enviarla. No guarda ninguna semilla.',
   de_DE:
-    'Scriptwerk ist ein Studio für Bitcoin-Miniscript-Wallets. Baue eine Ausgaberegel in Stufen, prüfe den Deskriptor und seine Prüfsumme, weise Schlüssel zu, drucke ein Wiederherstellungsblatt und registriere die Policy auf einem Ledger oder BitBox. Mit Bitcoin auf diesem Server prüft es Deskriptoren gegen den eigenen Node, und mit Fulcrum oder Electrs kann es die Coins einer Watch-only-Version der Policy auflisten.',
+    'Scriptwerk ist ein Studio für Bitcoin-Miniscript-Wallets. Baue eine Ausgaberegel in Stufen, prüfe den Deskriptor und seine Prüfsumme, weise Schlüssel zu, drucke ein Wiederherstellungsblatt und registriere die Policy auf einem Ledger oder BitBox. Mit Bitcoin auf diesem Server prüft es Deskriptoren gegen den eigenen Node, und mit Fulcrum oder Electrs kann es die Coins einer Watch-only-Version der Policy auflisten. Aus diesen Coins lässt sich eine Transaktion bauen, auf dem Gerät signieren und abschicken. Kein Seed.',
   pl_PL:
-    'Scriptwerk to studio dla portfeli miniscript Bitcoina. Buduj politykę wydawania etapami, sprawdzaj deskryptor i jego sumę kontrolną, przypisuj klucze, drukuj arkusz odzyskiwania i rejestruj politykę na Ledgerze lub BitBoxie. Z Bitcoinem na tym serwerze sprawdza deskryptory na własnym węźle, a z Fulcrum lub Electrs może wypisać monety posiadane przez wersję polityki tylko do odczytu.',
+    'Scriptwerk to studio dla portfeli miniscript Bitcoina. Buduj politykę wydawania etapami, sprawdzaj deskryptor i jego sumę kontrolną, przypisuj klucze, drukuj arkusz odzyskiwania i rejestruj politykę na Ledgerze lub BitBoxie. Z Bitcoinem na tym serwerze sprawdza deskryptory na własnym węźle, a z Fulcrum lub Electrs może wypisać monety posiadane przez wersję polityki tylko do odczytu. Z tych monet można zbudować transakcję, podpisać ją na urządzeniu i wysłać. Nie przechowuje seeda.',
   fr_FR:
-    'Scriptwerk est un studio pour les portefeuilles miniscript Bitcoin. Construisez une politique de dépense par étapes, inspectez le descripteur et sa somme de contrôle, attribuez des clés, imprimez une fiche de récupération et enregistrez la politique sur un Ledger ou un BitBox. Avec Bitcoin sur ce serveur, il vérifie les descripteurs auprès de votre propre nœud, et avec Fulcrum ou Electrs il peut lister les pièces détenues par une version en lecture seule de la politique.',
+    'Scriptwerk est un studio pour les portefeuilles miniscript Bitcoin. Construisez une politique de dépense par étapes, inspectez le descripteur et sa somme de contrôle, attribuez des clés, imprimez une fiche de récupération et enregistrez la politique sur un Ledger ou un BitBox. Avec Bitcoin sur ce serveur, il vérifie les descripteurs auprès de votre propre nœud, et avec Fulcrum ou Electrs il peut lister les pièces détenues par une version en lecture seule de la politique. À partir de ces pièces vous pouvez construire une transaction, la signer sur l’appareil et l’envoyer. Aucune seed n’est stockée.',
 }
 
 export const bitcoindDescription = {

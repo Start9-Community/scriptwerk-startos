@@ -9,7 +9,7 @@
 > upstream documentation is accurate and fully applicable — see the
 > Documentation section of `instructions.md` for links.
 
-[Scriptwerk](https://github.com/kwadde-cmyk/scriptwerk-startos) is a studio for Bitcoin miniscript wallets: build a spending policy in stages, inspect the descriptor and its checksum, assign keys, print a recovery sheet, and register the policy on a Ledger or BitBox. It is not a wallet and never holds coins — everything it designs lives in the browser that opened it. On StartOS it runs as one web service and, when they are installed, uses Bitcoin on the same server to check descriptors and derive addresses, and Fulcrum or Electrs to list the coins a watch-only version of the policy holds.
+[Scriptwerk](https://github.com/kwadde-cmyk/scriptwerk-startos) is a studio for Bitcoin miniscript wallets: build a spending policy in stages, inspect the descriptor and its checksum, assign keys, print a recovery sheet, and register the policy on a Ledger or BitBox. From scanned coins you can build a transaction, sign it on the device, and send it to your node. It is not a wallet and never holds coins or a seed — everything it designs lives in the browser that opened it. On StartOS it runs as one web service and, when they are installed, uses Bitcoin on the same server to check descriptors and derive addresses, and Fulcrum or Electrs to list the coins a watch-only version of the policy holds.
 
 - **Upstream repo:** <https://github.com/kwadde-cmyk/scriptwerk-startos>
 - **Wrapper repo:** <https://github.com/Start9-Community/scriptwerk-startos>
@@ -37,13 +37,13 @@
 
 One image, built from upstream's own `Dockerfile` inside the `scriptwerk/` git submodule, which is pinned at an upstream release tag. The package adds nothing to the image.
 
-| Property      | Value                                                     |
-| ------------- | --------------------------------------------------------- |
-| Image         | `scriptwerk`, built from `scriptwerk/Dockerfile`          |
-| Base          | `node:22-bookworm-slim`                                   |
-| Architectures | x86_64, aarch64                                           |
-| Command       | the image entrypoint (`node scripts/host.mjs`)            |
-| User          | `scriptwerk` (non-root)                                   |
+| Property      | Value                                            |
+| ------------- | ------------------------------------------------ |
+| Image         | `scriptwerk`, built from `scriptwerk/Dockerfile` |
+| Base          | `node:22-bookworm-slim`                          |
+| Architectures | x86_64, aarch64                                  |
+| Command       | the image entrypoint (`node scripts/host.mjs`)   |
+| User          | `scriptwerk` (non-root)                          |
 
 | Subcontainer | Purpose                                       |
 | ------------ | --------------------------------------------- |
@@ -70,11 +70,11 @@ Two things reach the application by environment variable instead, and both are r
 
 Three optional dependencies; the service runs without any of them.
 
-| Dependency | Required | Health checks               | Mount                                | Why                                                        |
-| ---------- | -------- | --------------------------- | ------------------------------------ | ---------------------------------------------------------- |
-| Bitcoin    | No       | `bitcoind`                  | `main` at `/mnt/bitcoind`, read-only | `getdescriptorinfo` and address derivation on the user's node |
-| Fulcrum    | No       | `primary`, `sync-progress`  | none                                 | Coin lookup for a watch-only policy — preferred            |
-| Electrs    | No       | `electrs`, `sync`           | none                                 | Coin lookup when Fulcrum is not installed                  |
+| Dependency | Required | Health checks              | Mount                                | Why                                                           |
+| ---------- | -------- | -------------------------- | ------------------------------------ | ------------------------------------------------------------- |
+| Bitcoin    | No       | `bitcoind`                 | `main` at `/mnt/bitcoind`, read-only | `getdescriptorinfo` and address derivation on the user's node |
+| Fulcrum    | No       | `primary`, `sync-progress` | none                                 | Coin lookup for a watch-only policy — preferred               |
+| Electrs    | No       | `electrs`, `sync`          | none                                 | Coin lookup when Fulcrum is not installed                     |
 
 Bitcoin must be at least 28.4:29, 29.4:16, 30.3:16 or 31.1:16 on its major line, or Bitcoin Knots (pre-RDTS) 29.3:29; Fulcrum at least 2.1.1:8; Electrs at least 0.11.1:11.
 
@@ -84,9 +84,9 @@ Each is declared as current only while it is installed, so an absent optional de
 
 One interface, serving the studio.
 
-| Interface | Id   | Type | Port | Description                       |
-| --------- | ---- | ---- | ---- | --------------------------------- |
-| Web UI    | `ui` | ui   | 8080 | The Scriptwerk miniscript studio  |
+| Interface | Id   | Type | Port | Description                      |
+| --------- | ---- | ---- | ---- | -------------------------------- |
+| Web UI    | `ui` | ui   | 8080 | The Scriptwerk miniscript studio |
 
 The port is bound on the `ui-multi` MultiHost over plain HTTP and is not masked. There is no login: the studio holds no secrets server-side, but the Bitcoin RPC proxy behind it is open to anyone who can reach the interface, so keep it on trusted addresses.
 

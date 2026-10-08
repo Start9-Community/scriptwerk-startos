@@ -28,7 +28,11 @@ Registering a policy on a Ledger or BitBox, and scanning QR codes, needs a deskt
 
 Export a descriptor, BSMS or Scriptwerk JSON from the **Import / Export** view before clearing browser data or switching devices. A StartOS backup of this service contains nothing — there is nothing on the server to back up.
 
+### Transactions
+
+The **Tx** view builds a payment from scanned coins, or one recovery transaction per coin whose timelock has opened. Finalize exports or imports the PSBT as a file or a QR video, or signs it over USB. Sending hands the finished transaction to Bitcoin, or saves it as a file. The policy must already be registered on the Ledger or BitBox. No seed is stored on the server or in the browser.
+
 ## Limitations
 
-- Scriptwerk is a design and checking tool, not a wallet or a signer. Verify the descriptor and checksum on Bitcoin and on the device before coins sit on a policy.
+- Scriptwerk does not hold a seed or coins. Signing stays on a Ledger or BitBox. Verify the descriptor and checksum on Bitcoin and on the device before coins sit on a policy.
 - Only SegWit `wsh()` miniscript policies; Taproot is not supported.
