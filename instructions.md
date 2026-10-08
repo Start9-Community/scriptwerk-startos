@@ -12,9 +12,10 @@ Nothing you design is stored on the server. Policies, key names and saved design
 
 ## Getting set up
 
-1. Open the **Web UI** from the Dashboard tab.
-2. Build a policy from the **Stages** tab, or import a descriptor, miniscript, BSMS or Scriptwerk JSON file.
-3. To check the policy against your node, open the **Node** dialog: with Bitcoin installed it is already connected. **Unlock** lets you point it at a different node; **Reset** returns to the one on this server.
+1. Run **Set Web UI Password** (StartOS asks you to before the first start) and save the password it shows. The username is `admin`.
+2. Start the service and open the **Web UI** from the Dashboard tab; your browser asks for the username and password.
+3. Build a policy from the **Stages** tab, or import a descriptor, miniscript, BSMS or Scriptwerk JSON file.
+4. To check the policy against your node, open the **Node** dialog: with Bitcoin installed it is already connected. **Unlock** lets you point it at a different node; **Reset** returns to the one on this server.
 
 Install Bitcoin, Fulcrum or Electrs at any time — Scriptwerk restarts on its own to pick them up.
 
@@ -26,7 +27,7 @@ Registering a policy on a Ledger or BitBox, and scanning QR codes, needs a deskt
 
 ### Keeping your work
 
-Export a descriptor, BSMS or Scriptwerk JSON from the **Import / Export** view before clearing browser data or switching devices. A StartOS backup of this service contains nothing — there is nothing on the server to back up.
+Export a descriptor, BSMS or Scriptwerk JSON from the **Import / Export** view before clearing browser data or switching devices. A StartOS backup of this service holds only the Web UI password — your designs are not on the server.
 
 ### Transactions
 

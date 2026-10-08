@@ -10,7 +10,7 @@ export const manifest = setupManifest({
   marketingUrl: 'https://github.com/kwadde-cmyk/scriptwerk-startos',
   donationUrl: null,
   description: { short, long },
-  volumes: [],
+  volumes: ['startos'],
   images: {
     scriptwerk: {
       source: { dockerBuild: { workdir: './scriptwerk' } },
