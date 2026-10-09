@@ -15,7 +15,7 @@ Nothing you design is stored on the server. Policies, key names and saved design
 1. Run **Set Web UI Password** (StartOS asks you to before the first start) and save the password it shows. The username is `admin`.
 2. Start the service and open the **Web UI** from the Dashboard tab; your browser asks for the username and password.
 3. Build a policy from the **Stages** tab, or import a descriptor, miniscript, BSMS or Scriptwerk JSON file.
-4. To check the policy against your node, open the **Node** dialog: with Bitcoin installed it is already connected. **Unlock** lets you point it at a different node; **Reset** returns to the one on this server.
+4. To check the policy against your node, open the **Node** dialog: with Bitcoin installed it is already connected. **Unlock** lets you point it at a different node, including a remote one; the studio warns that you have to trust a server outside your network. **Reset** returns to the one on this server.
 
 Install Bitcoin, Fulcrum or Electrs at any time — Scriptwerk restarts on its own to pick them up.
 
@@ -31,9 +31,9 @@ Export a descriptor, BSMS or Scriptwerk JSON from the **Import / Export** view b
 
 ### Transactions
 
-The **Tx** view builds a payment from scanned coins, or one recovery transaction per coin whose timelock has opened. Finalize exports the PSBT as a file or a static QR, imports it as a file or a QR video, or signs it over USB. Sending hands the finished transaction to Bitcoin, or saves it as a file. The policy must already be registered on the Ledger or BitBox. No seed is stored on the server or in the browser.
+The **Tx** view builds a payment from scanned coins, or one recovery transaction per coin whose timelock has opened. Finalize exports the PSBT as a file or a static QR, imports it as a file or a QR video, or signs it over USB. A trash icon deletes the loaded PSBT. Sending hands the finished transaction to Bitcoin, or saves it as a file. The policy must already be registered on the Ledger or BitBox. No seed is stored on the server or in the browser.
 
 ## Limitations
 
 - Scriptwerk does not hold a seed or coins. Signing stays on a Ledger or BitBox. Verify the descriptor and checksum on Bitcoin and on the device before coins sit on a policy.
-- Only SegWit `wsh()` miniscript policies; Taproot is not supported.
+- Policies are SegWit miniscript. One key and no timelock is native `wpkh`. An imported `wsh(pk)` stays that descriptor. Taproot is not supported.

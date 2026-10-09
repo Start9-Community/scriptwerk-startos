@@ -9,6 +9,7 @@ const notes = {
     '- The fee is sat/vB or absolute sats, and the other value is calculated. Change in the dust range warns and still builds. The chosen spend path is written into nSequence and nLockTime.',
     '- The wallet scans receive and change through Electrum without Bitcoin Core, on the production server as well as in dev: derivation and grouped spent history. Loading or importing a policy clears the previous coin list. Open and locked paths can be colored in the policy tree.',
     '- Amounts show only the unit icon. Icon buttons have a tooltip. Ledger connects in the browser again.',
+    '- One key and no timelock is native SegWit singlesig (wpkh). An imported wsh(pk) stays that descriptor. Finalize can delete the loaded PSBT. Electrum and RPC may be a remote server; the dialog warns that you have to trust it.',
   ].join('\n'),
   de_DE: [
     'Seit 0.1.33.',
@@ -18,6 +19,7 @@ const notes = {
     '- Die Gebühr ist sat/vB oder absolute sats; der andere Wert wird ausgerechnet. Wechselgeld im Dust-Bereich warnt und baut trotzdem. Der gewählte Ausgabepfad steht in nSequence und nLockTime.',
     '- Die Wallet scannt Empfang und Wechsel über Electrum auch ohne Bitcoin Core, auf dem Produktions-Server genauso wie in der Entwicklung: Ableitung und gruppierte History verbrauchter Adressen. Laden oder Import einer Policy leert die vorherige Coin-Liste. Offene und gesperrte Pfade lassen sich im Baum einfärben.',
     '- Beträge zeigen nur das Einheiten-Icon. Icon-Buttons haben einen Tooltip. Ledger verbindet sich im Browser wieder.',
+    '- Ein Key ohne Timelock ist natives SegWit-Singlesig (wpkh). Ein importiertes wsh(pk) bleibt dieser Descriptor. Finalisieren kann die geladene PSBT löschen. Electrum und RPC dürfen ein Remote-Server sein; der Dialog warnt, dass du ihm vertrauen musst.',
   ].join('\n'),
   es_ES: [
     'Desde 0.1.33.',
@@ -27,6 +29,7 @@ const notes = {
     '- La comisión es sat/vB o sats absolutos; el otro valor se calcula. El cambio en el rango de dust avisa y aun así construye. La ruta de gasto elegida se escribe en nSequence y nLockTime.',
     '- La cartera escanea recepción y cambio por Electrum sin Bitcoin Core, en el servidor de producción igual que en desarrollo: derivación e historial gastado agrupado. Cargar o importar una policy borra la lista de monedas anterior. Los caminos abiertos y bloqueados se pueden colorear en el árbol.',
     '- Los importes muestran solo el icono de unidad. Los botones de icono tienen un tooltip. Ledger vuelve a conectarse en el navegador.',
+    '- Una clave sin bloqueo temporal es singlesig SegWit nativo (wpkh). Un wsh(pk) importado se conserva. Finalizar puede borrar la PSBT cargada. Electrum y RPC pueden ser un servidor remoto; el diálogo avisa de que hay que confiar en él.',
   ].join('\n'),
   pl_PL: [
     'Od 0.1.33.',
@@ -36,6 +39,7 @@ const notes = {
     '- Opłata to sat/vB albo sats absolutne; druga wartość jest liczona. Reszta w zakresie dust ostrzega i i tak buduje. Wybrana ścieżka wydania trafia do nSequence i nLockTime.',
     '- Portfel skanuje odbiór i resztę przez Electrum bez Bitcoin Core, na serwerze produkcyjnym tak samo jak w trybie deweloperskim: wyprowadzanie adresów i pogrupowana historia wydanych. Wczytanie lub import policy czyści poprzednią listę monet. Otwarte i zablokowane ścieżki można pokolorować na drzewie.',
     '- Kwoty pokazują tylko ikonę jednostki. Przyciski z ikonami mają podpowiedź. Ledger znów łączy się w przeglądarce.',
+    '- Jeden klucz bez blokady czasowej to natywny singlesig SegWit (wpkh). Zaimportowane wsh(pk) zostaje tym deskryptorem. Finalizacja może usunąć wczytane PSBT. Electrum i RPC mogą być zdalnym serwerem; okno ostrzega, że trzeba mu ufać.',
   ].join('\n'),
   fr_FR: [
     'Depuis 0.1.33.',
@@ -45,11 +49,12 @@ const notes = {
     '- Les frais sont en sat/vB ou en sats absolus ; l’autre valeur est calculée. La monnaie en zone dust avertit et construit quand même. Le chemin de dépense choisi est écrit dans nSequence et nLockTime.',
     '- Le portefeuille scanne réception et monnaie via Electrum sans Bitcoin Core, sur le serveur de production comme en développement : dérivation et historique dépensé regroupé. Charger ou importer une policy vide la liste de pièces précédente. Les chemins ouverts et verrouillés peuvent être colorés dans l’arbre.',
     '- Les montants n’affichent que l’icône d’unité. Les boutons icône ont une infobulle. Ledger se reconnecte dans le navigateur.',
+    '- Une clé sans verrou temporel est un singlesig SegWit natif (wpkh). Un wsh(pk) importé reste ce descripteur. Finaliser peut effacer la PSBT chargée. Electrum et RPC peuvent être un serveur distant ; le dialogue avertit qu’il faut lui faire confiance.',
   ].join('\n'),
 }
 
 export const current = VersionInfo.of({
-  version: '0.1.56:0',
+  version: '0.1.57:0',
   releaseNotes: notes,
   migrations: {
     up: async ({ effects }) => {},

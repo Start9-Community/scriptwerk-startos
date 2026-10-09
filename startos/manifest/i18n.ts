@@ -22,15 +22,15 @@ export const long = {
 
 export const bitcoindDescription = {
   en_US:
-    'Checks descriptors and derives addresses on your own node instead of a remote one.',
+    'Checks descriptors and derives addresses on this server, or on another RPC you trust.',
   es_ES:
-    'Comprueba descriptores y deriva direcciones en tu propio nodo en lugar de uno remoto.',
+    'Comprueba descriptores y deriva direcciones en este servidor, o en otro RPC en el que confíes.',
   de_DE:
-    'Prüft Deskriptoren und leitet Adressen auf dem eigenen Node statt auf einem entfernten ab.',
+    'Prüft Deskriptoren und leitet Adressen auf diesem Server oder auf einem RPC ab, dem du vertraust.',
   pl_PL:
-    'Sprawdza deskryptory i wyprowadza adresy na własnym węźle zamiast na zdalnym.',
+    'Sprawdza deskryptory i wyprowadza adresy na tym serwerze albo na innym RPC, któremu ufasz.',
   fr_FR:
-    'Vérifie les descripteurs et dérive les adresses sur votre propre nœud plutôt que sur un nœud distant.',
+    'Vérifie les descripteurs et dérive les adresses sur ce serveur, ou sur un autre RPC auquel vous faites confiance.',
 }
 
 export const fulcrumDescription = {
