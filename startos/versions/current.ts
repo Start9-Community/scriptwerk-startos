@@ -10,6 +10,7 @@ const notes = {
     '- The wallet scans receive and change through Electrum without Bitcoin Core, on the production server as well as in dev: derivation and grouped spent history. Loading or importing a policy clears the previous coin list. Open and locked paths can be colored in the policy tree.',
     '- Amounts show only the unit icon. Icon buttons have a tooltip. Ledger connects in the browser again.',
     '- One key and no timelock is native SegWit singlesig (wpkh). An imported wsh(pk) stays that descriptor. Finalize can delete the loaded PSBT. Electrum and RPC may be a remote server; the dialog warns that you have to trust it.',
+    '- BSMS export matches Nunchuk: the path stays in the descriptor, the next line is "No path restrictions", and the last line is the first receive address. Key names stay in the keys file and wallet.json. Coin tags are in that file and in the labels file; import asks before replacing a tag. Ledger and BitBox JSON files are no longer downloaded.',
   ].join('\n'),
   de_DE: [
     'Seit 0.1.33.',
@@ -20,6 +21,7 @@ const notes = {
     '- Die Wallet scannt Empfang und Wechsel über Electrum auch ohne Bitcoin Core, auf dem Produktions-Server genauso wie in der Entwicklung: Ableitung und gruppierte History verbrauchter Adressen. Laden oder Import einer Policy leert die vorherige Coin-Liste. Offene und gesperrte Pfade lassen sich im Baum einfärben.',
     '- Beträge zeigen nur das Einheiten-Icon. Icon-Buttons haben einen Tooltip. Ledger verbindet sich im Browser wieder.',
     '- Ein Key ohne Timelock ist natives SegWit-Singlesig (wpkh). Ein importiertes wsh(pk) bleibt dieser Descriptor. Finalisieren kann die geladene PSBT löschen. Electrum und RPC dürfen ein Remote-Server sein; der Dialog warnt, dass du ihm vertrauen musst.',
+    '- BSMS-Export wie Nunchuk: der Pfad bleibt im Descriptor, danach „No path restrictions“, zuletzt die erste Empfangsadresse. Key-Namen nur in der Keys-Datei und in wallet.json. Coin-Tags stehen dort und in der Labels-Datei; der Import fragt, bevor ein Tag überschrieben wird. Ledger- und BitBox-JSON-Dateien entfallen.',
   ].join('\n'),
   es_ES: [
     'Desde 0.1.33.',
@@ -30,6 +32,7 @@ const notes = {
     '- La cartera escanea recepción y cambio por Electrum sin Bitcoin Core, en el servidor de producción igual que en desarrollo: derivación e historial gastado agrupado. Cargar o importar una policy borra la lista de monedas anterior. Los caminos abiertos y bloqueados se pueden colorear en el árbol.',
     '- Los importes muestran solo el icono de unidad. Los botones de icono tienen un tooltip. Ledger vuelve a conectarse en el navegador.',
     '- Una clave sin bloqueo temporal es singlesig SegWit nativo (wpkh). Un wsh(pk) importado se conserva. Finalizar puede borrar la PSBT cargada. Electrum y RPC pueden ser un servidor remoto; el diálogo avisa de que hay que confiar en él.',
+    '- La exportación BSMS sigue a Nunchuk: la ruta queda en el descriptor, la línea siguiente es "No path restrictions" y la última es la primera dirección de recepción. Los nombres de las claves solo van en el archivo de claves y en wallet.json. Las etiquetas de monedas van ahí y en el archivo de etiquetas; la importación pregunta antes de sustituir una etiqueta. Ya no se descargan JSON de Ledger ni BitBox.',
   ].join('\n'),
   pl_PL: [
     'Od 0.1.33.',
@@ -40,6 +43,7 @@ const notes = {
     '- Portfel skanuje odbiór i resztę przez Electrum bez Bitcoin Core, na serwerze produkcyjnym tak samo jak w trybie deweloperskim: wyprowadzanie adresów i pogrupowana historia wydanych. Wczytanie lub import policy czyści poprzednią listę monet. Otwarte i zablokowane ścieżki można pokolorować na drzewie.',
     '- Kwoty pokazują tylko ikonę jednostki. Przyciski z ikonami mają podpowiedź. Ledger znów łączy się w przeglądarce.',
     '- Jeden klucz bez blokady czasowej to natywny singlesig SegWit (wpkh). Zaimportowane wsh(pk) zostaje tym deskryptorem. Finalizacja może usunąć wczytane PSBT. Electrum i RPC mogą być zdalnym serwerem; okno ostrzega, że trzeba mu ufać.',
+    '- Eksport BSMS jak w Nunchuk: ścieżka zostaje w deskryptorze, następna linia to „No path restrictions”, ostatnia to pierwszy adres odbioru. Nazwy kluczy tylko w pliku kluczy i w wallet.json. Tagi monet są tam i w pliku etykiet; import pyta, zanim nadpisze tag. Pliki JSON Ledger i BitBox nie są już pobierane.',
   ].join('\n'),
   fr_FR: [
     'Depuis 0.1.33.',
@@ -50,11 +54,12 @@ const notes = {
     '- Le portefeuille scanne réception et monnaie via Electrum sans Bitcoin Core, sur le serveur de production comme en développement : dérivation et historique dépensé regroupé. Charger ou importer une policy vide la liste de pièces précédente. Les chemins ouverts et verrouillés peuvent être colorés dans l’arbre.',
     '- Les montants n’affichent que l’icône d’unité. Les boutons icône ont une infobulle. Ledger se reconnecte dans le navigateur.',
     '- Une clé sans verrou temporel est un singlesig SegWit natif (wpkh). Un wsh(pk) importé reste ce descripteur. Finaliser peut effacer la PSBT chargée. Electrum et RPC peuvent être un serveur distant ; le dialogue avertit qu’il faut lui faire confiance.',
+    '- L’export BSMS suit Nunchuk : le chemin reste dans le descripteur, la ligne suivante est « No path restrictions » et la dernière est la première adresse de réception. Les noms de clés ne sont que dans le fichier de clés et wallet.json. Les tags de pièces y sont et dans le fichier d’étiquettes ; l’import demande avant de remplacer un tag. Les fichiers JSON Ledger et BitBox ne sont plus téléchargés.',
   ].join('\n'),
 }
 
 export const current = VersionInfo.of({
-  version: '0.1.57:0',
+  version: '0.1.58:0',
   releaseNotes: notes,
   migrations: {
     up: async ({ effects }) => {},

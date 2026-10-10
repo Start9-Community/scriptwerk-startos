@@ -27,7 +27,7 @@ Registering a policy on a Ledger or BitBox, and scanning QR codes, needs a deskt
 
 ### Keeping your work
 
-Export a descriptor, BSMS or Scriptwerk JSON from the **Import / Export** view before clearing browser data or switching devices. A StartOS backup of this service holds only the Web UI password — your designs are not on the server.
+Export a descriptor, Nunchuk BSMS, or wallet.json from the **Import / Export** view before clearing browser data or switching devices. Key names are in the keys file and wallet.json. Coin tags are in wallet.json and in the separate labels file; import asks before replacing a tag. A StartOS backup of this service holds only the Web UI password — your designs are not on the server.
 
 ### Transactions
 
