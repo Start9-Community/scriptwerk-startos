@@ -11,6 +11,7 @@ const notes = {
     '- Amounts show only the unit icon. Icon buttons have a tooltip. Ledger connects in the browser again.',
     '- One key and no timelock is native SegWit singlesig (wpkh). An imported wsh(pk) stays that descriptor. Finalize can delete the loaded PSBT. Electrum and RPC may be a remote server; the dialog warns that you have to trust it.',
     '- BSMS export matches Nunchuk: the path stays in the descriptor, the next line is "No path restrictions", and the last line is the first receive address. Key names stay in the keys file and wallet.json. Coin tags are in that file and in the labels file; import asks before replacing a tag. Ledger and BitBox JSON files are no longer downloaded.',
+    '- Stage recovery can move every coin that is spendable now, so a stage can be reset before the next one opens. Choose one stage or all open coins. Marked keys select the coins they can move; marked coins show the keys they need.',
   ].join('\n'),
   de_DE: [
     'Seit 0.1.33.',
@@ -22,6 +23,7 @@ const notes = {
     '- Beträge zeigen nur das Einheiten-Icon. Icon-Buttons haben einen Tooltip. Ledger verbindet sich im Browser wieder.',
     '- Ein Key ohne Timelock ist natives SegWit-Singlesig (wpkh). Ein importiertes wsh(pk) bleibt dieser Descriptor. Finalisieren kann die geladene PSBT löschen. Electrum und RPC dürfen ein Remote-Server sein; der Dialog warnt, dass du ihm vertrauen musst.',
     '- BSMS-Export wie Nunchuk: der Pfad bleibt im Descriptor, danach „No path restrictions“, zuletzt die erste Empfangsadresse. Key-Namen nur in der Keys-Datei und in wallet.json. Coin-Tags stehen dort und in der Labels-Datei; der Import fragt, bevor ein Tag überschrieben wird. Ledger- und BitBox-JSON-Dateien entfallen.',
+    '- Die Stufen-Recovery bewegt jeden Coin, der jetzt ausgebbar ist, damit eine Stufe vor dem Öffnen der nächsten zurückgesetzt werden kann. Eine Stufe oder alle offenen Coins. Markierte Schlüssel wählen die passenden Coins; markierte Coins zeigen die nötigen Schlüssel.',
   ].join('\n'),
   es_ES: [
     'Desde 0.1.33.',
@@ -33,6 +35,7 @@ const notes = {
     '- Los importes muestran solo el icono de unidad. Los botones de icono tienen un tooltip. Ledger vuelve a conectarse en el navegador.',
     '- Una clave sin bloqueo temporal es singlesig SegWit nativo (wpkh). Un wsh(pk) importado se conserva. Finalizar puede borrar la PSBT cargada. Electrum y RPC pueden ser un servidor remoto; el diálogo avisa de que hay que confiar en él.',
     '- La exportación BSMS sigue a Nunchuk: la ruta queda en el descriptor, la línea siguiente es "No path restrictions" y la última es la primera dirección de recepción. Los nombres de las claves solo van en el archivo de claves y en wallet.json. Las etiquetas de monedas van ahí y en el archivo de etiquetas; la importación pregunta antes de sustituir una etiqueta. Ya no se descargan JSON de Ledger ni BitBox.',
+    '- La recuperación por etapas mueve cada moneda que ya se puede gastar, para reiniciar una etapa antes de que abra la siguiente. Una etapa o todas las monedas abiertas. Las claves marcadas eligen esas monedas; las monedas marcadas muestran las claves necesarias.',
   ].join('\n'),
   pl_PL: [
     'Od 0.1.33.',
@@ -44,6 +47,7 @@ const notes = {
     '- Kwoty pokazują tylko ikonę jednostki. Przyciski z ikonami mają podpowiedź. Ledger znów łączy się w przeglądarce.',
     '- Jeden klucz bez blokady czasowej to natywny singlesig SegWit (wpkh). Zaimportowane wsh(pk) zostaje tym deskryptorem. Finalizacja może usunąć wczytane PSBT. Electrum i RPC mogą być zdalnym serwerem; okno ostrzega, że trzeba mu ufać.',
     '- Eksport BSMS jak w Nunchuk: ścieżka zostaje w deskryptorze, następna linia to „No path restrictions”, ostatnia to pierwszy adres odbioru. Nazwy kluczy tylko w pliku kluczy i w wallet.json. Tagi monet są tam i w pliku etykiet; import pyta, zanim nadpisze tag. Pliki JSON Ledger i BitBox nie są już pobierane.',
+    '- Odzyskiwanie etapów przenosi każdą monetę, którą da się teraz wydać, żeby zresetować etap, zanim otworzy się następny. Jeden etap albo wszystkie otwarte monety. Zaznaczone klucze wybierają te monety; zaznaczone monety pokazują potrzebne klucze.',
   ].join('\n'),
   fr_FR: [
     'Depuis 0.1.33.',
@@ -55,11 +59,12 @@ const notes = {
     '- Les montants n’affichent que l’icône d’unité. Les boutons icône ont une infobulle. Ledger se reconnecte dans le navigateur.',
     '- Une clé sans verrou temporel est un singlesig SegWit natif (wpkh). Un wsh(pk) importé reste ce descripteur. Finaliser peut effacer la PSBT chargée. Electrum et RPC peuvent être un serveur distant ; le dialogue avertit qu’il faut lui faire confiance.',
     '- L’export BSMS suit Nunchuk : le chemin reste dans le descripteur, la ligne suivante est « No path restrictions » et la dernière est la première adresse de réception. Les noms de clés ne sont que dans le fichier de clés et wallet.json. Les tags de pièces y sont et dans le fichier d’étiquettes ; l’import demande avant de remplacer un tag. Les fichiers JSON Ledger et BitBox ne sont plus téléchargés.',
+    '- La récupération par étape déplace chaque pièce dépensable maintenant, pour remettre une étape à zéro avant que la suivante s’ouvre. Une étape ou toutes les pièces ouvertes. Les clés cochées sélectionnent ces pièces ; les pièces cochées indiquent les clés nécessaires.',
   ].join('\n'),
 }
 
 export const current = VersionInfo.of({
-  version: '0.1.58:0',
+  version: '0.1.59:0',
   releaseNotes: notes,
   migrations: {
     up: async ({ effects }) => {},
