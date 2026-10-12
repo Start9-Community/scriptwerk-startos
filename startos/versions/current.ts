@@ -13,6 +13,7 @@ const notes = {
     '- BSMS export matches Nunchuk: the path stays in the descriptor, the next line is "No path restrictions", and the last line is the first receive address. Key names stay in the keys file and wallet.json. Coin tags are in that file and in the labels file; import asks before replacing a tag. Ledger and BitBox JSON files are no longer downloaded.',
     '- Stage recovery can move every coin that is spendable now, so a stage can be reset before the next one opens. Choose one stage or all open coins. Marked keys select the coins they can move; marked coins show the keys they need.',
     '- Recovery signing takes one key and one transport at a time. Each transaction is sent, signed, and imported before the next. File transport downloads every open PSBT in one zip. Coins that share a tag can be merged into one transaction, per coin or all at once. The Ledger registers the descriptor on the first transaction if it is not there yet.',
+    '- No timelock sits beside By stage. Coins without a timelock stay in the stage list and show when the next stage opens. One button builds every PSBT and one signs them. Descriptor, Miniscript, BSMS and PSBT can be a still QR or a QR video. Checking UTXOs is in the watch-only card. The transaction QR video plays every fountain part and shows a frame counter, for example 3/13. Specter DIY can finish a PSBT that needs more than eight frames.',
   ].join('\n'),
   de_DE: [
     'Seit 0.1.33.',
@@ -26,6 +27,7 @@ const notes = {
     '- BSMS-Export wie Nunchuk: der Pfad bleibt im Descriptor, danach „No path restrictions“, zuletzt die erste Empfangsadresse. Key-Namen nur in der Keys-Datei und in wallet.json. Coin-Tags stehen dort und in der Labels-Datei; der Import fragt, bevor ein Tag überschrieben wird. Ledger- und BitBox-JSON-Dateien entfallen.',
     '- Die Stufen-Recovery bewegt jeden Coin, der jetzt ausgebbar ist, damit eine Stufe vor dem Öffnen der nächsten zurückgesetzt werden kann. Eine Stufe oder alle offenen Coins. Markierte Schlüssel wählen die passenden Coins; markierte Coins zeigen die nötigen Schlüssel.',
     '- Beim Signieren der Recovery ist ein Schlüssel und ein Transport an der Reihe. Jede Transaktion wird gesendet, signiert und importiert, bevor die nächste kommt. Per Datei landen alle offenen PSBTs in einer Zip. Coins mit demselben Tag können eine Transaktion werden, pro Coin oder alle auf einmal. Der Ledger registriert den Descriptor bei der ersten Transaktion, falls er noch fehlt.',
+    '- Ohne Timelock steht neben Nach Stufe. Coins ohne Timelock bleiben in der Stufenliste und zeigen, wann die nächste Stufe aufgeht. Ein Knopf erzeugt alle PSBTs, einer signiert sie. Descriptor, Miniscript, BSMS und PSBT können ein fester QR oder ein Video-QR sein. UTXOs prüfen steht in der Watch-only-Kachel. Das QR-Video einer Transaktion spielt alle Fountain-Teile und zeigt einen Framezähler, zum Beispiel 3/13. Specter DIY kann eine PSBT zu Ende lesen, die mehr als acht Frames braucht.',
   ].join('\n'),
   es_ES: [
     'Desde 0.1.33.',
@@ -39,6 +41,7 @@ const notes = {
     '- La exportación BSMS sigue a Nunchuk: la ruta queda en el descriptor, la línea siguiente es "No path restrictions" y la última es la primera dirección de recepción. Los nombres de las claves solo van en el archivo de claves y en wallet.json. Las etiquetas de monedas van ahí y en el archivo de etiquetas; la importación pregunta antes de sustituir una etiqueta. Ya no se descargan JSON de Ledger ni BitBox.',
     '- La recuperación por etapas mueve cada moneda que ya se puede gastar, para reiniciar una etapa antes de que abra la siguiente. Una etapa o todas las monedas abiertas. Las claves marcadas eligen esas monedas; las monedas marcadas muestran las claves necesarias.',
     '- Firmar la recuperación va de una clave y un transporte a la vez. Cada transacción se envía, se firma y se importa antes de la siguiente. Por archivo, todas las PSBT abiertas van en un zip. Las monedas con la misma etiqueta pueden juntarse en una transacción, por moneda o todas a la vez. El Ledger registra el descriptor en la primera transacción si aún no está.',
+    '- Sin timelock está junto a Por etapa. Las monedas sin timelock siguen en la lista y muestran cuándo abre la siguiente. Un botón crea todas las PSBT y otro las firma. Descriptor, Miniscript, BSMS y PSBT pueden ser un QR fijo o un vídeo QR. Comprobar UTXOs está en la tarjeta watch-only. El vídeo QR de una transacción recorre todas las partes fountain y muestra un contador, por ejemplo 3/13. Specter DIY puede terminar una PSBT que necesita más de ocho frames.',
   ].join('\n'),
   pl_PL: [
     'Od 0.1.33.',
@@ -52,6 +55,7 @@ const notes = {
     '- Eksport BSMS jak w Nunchuk: ścieżka zostaje w deskryptorze, następna linia to „No path restrictions”, ostatnia to pierwszy adres odbioru. Nazwy kluczy tylko w pliku kluczy i w wallet.json. Tagi monet są tam i w pliku etykiet; import pyta, zanim nadpisze tag. Pliki JSON Ledger i BitBox nie są już pobierane.',
     '- Odzyskiwanie etapów przenosi każdą monetę, którą da się teraz wydać, żeby zresetować etap, zanim otworzy się następny. Jeden etap albo wszystkie otwarte monety. Zaznaczone klucze wybierają te monety; zaznaczone monety pokazują potrzebne klucze.',
     '- Podpisywanie odzyskiwania idzie po jednym kluczu i jednym transporcie. Każda transakcja jest wysyłana, podpisywana i importowana, zanim przyjdzie następna. Plik pobiera wszystkie otwarte PSBT w jednym zipie. Monety z tym samym tagiem mogą wejść do jednej transakcji, pojedynczo albo wszystkie naraz. Ledger rejestruje deskryptor przy pierwszej transakcji, jeśli go jeszcze nie ma.',
+    '- Bez timelocka jest obok Według etapu. Monety bez timelocka zostają na liście i pokazują, kiedy otworzy się następny. Jeden przycisk tworzy wszystkie PSBT, drugi je podpisuje. Deskryptor, Miniscript, BSMS i PSBT mogą być nieruchomym QR albo wideo QR. Sprawdzanie UTXO jest na kafelku watch-only. Wideo QR transakcji odtwarza wszystkie części fountain i pokazuje licznik, na przykład 3/13. Specter DIY może dokończyć PSBT, które potrzebuje więcej niż osiem klatek.',
   ].join('\n'),
   fr_FR: [
     'Depuis 0.1.33.',
@@ -65,11 +69,12 @@ const notes = {
     '- L’export BSMS suit Nunchuk : le chemin reste dans le descripteur, la ligne suivante est « No path restrictions » et la dernière est la première adresse de réception. Les noms de clés ne sont que dans le fichier de clés et wallet.json. Les tags de pièces y sont et dans le fichier d’étiquettes ; l’import demande avant de remplacer un tag. Les fichiers JSON Ledger et BitBox ne sont plus téléchargés.',
     '- La récupération par étape déplace chaque pièce dépensable maintenant, pour remettre une étape à zéro avant que la suivante s’ouvre. Une étape ou toutes les pièces ouvertes. Les clés cochées sélectionnent ces pièces ; les pièces cochées indiquent les clés nécessaires.',
     '- La signature de récupération se fait une clé et un transport à la fois. Chaque transaction est envoyée, signée et importée avant la suivante. Par fichier, toutes les PSBT ouvertes partent dans un zip. Les pièces qui partagent un tag peuvent former une seule transaction, pièce par pièce ou toutes à la fois. Le Ledger enregistre le descripteur à la première transaction s’il n’y est pas encore.',
+    '- Sans timelock est à côté de Par étape. Les pièces sans timelock restent dans la liste et indiquent quand la suivante s’ouvre. Un bouton crée toutes les PSBT, un autre les signe. Descripteur, Miniscript, BSMS et PSBT peuvent être un QR fixe ou une vidéo QR. Vérifier les UTXO se fait dans la tuile watch-only. La vidéo QR d’une transaction joue toutes les parties fountain et affiche un compteur, par exemple 3/13. Specter DIY peut finir une PSBT qui demande plus de huit images.',
   ].join('\n'),
 }
 
 export const current = VersionInfo.of({
-  version: '0.1.60:0',
+  version: '0.1.64:0',
   releaseNotes: notes,
   migrations: {
     up: async ({ effects }) => {},
