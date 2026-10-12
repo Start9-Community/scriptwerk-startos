@@ -12,6 +12,7 @@ const notes = {
     '- One key and no timelock is native SegWit singlesig (wpkh). An imported wsh(pk) stays that descriptor. Finalize can delete the loaded PSBT. Electrum and RPC may be a remote server; the dialog warns that you have to trust it.',
     '- BSMS export matches Nunchuk: the path stays in the descriptor, the next line is "No path restrictions", and the last line is the first receive address. Key names stay in the keys file and wallet.json. Coin tags are in that file and in the labels file; import asks before replacing a tag. Ledger and BitBox JSON files are no longer downloaded.',
     '- Stage recovery can move every coin that is spendable now, so a stage can be reset before the next one opens. Choose one stage or all open coins. Marked keys select the coins they can move; marked coins show the keys they need.',
+    '- Recovery signing takes one key and one transport at a time. Each transaction is sent, signed, and imported before the next. File transport downloads every open PSBT in one zip. Coins that share a tag can be merged into one transaction, per coin or all at once. The Ledger registers the descriptor on the first transaction if it is not there yet.',
   ].join('\n'),
   de_DE: [
     'Seit 0.1.33.',
@@ -24,6 +25,7 @@ const notes = {
     '- Ein Key ohne Timelock ist natives SegWit-Singlesig (wpkh). Ein importiertes wsh(pk) bleibt dieser Descriptor. Finalisieren kann die geladene PSBT löschen. Electrum und RPC dürfen ein Remote-Server sein; der Dialog warnt, dass du ihm vertrauen musst.',
     '- BSMS-Export wie Nunchuk: der Pfad bleibt im Descriptor, danach „No path restrictions“, zuletzt die erste Empfangsadresse. Key-Namen nur in der Keys-Datei und in wallet.json. Coin-Tags stehen dort und in der Labels-Datei; der Import fragt, bevor ein Tag überschrieben wird. Ledger- und BitBox-JSON-Dateien entfallen.',
     '- Die Stufen-Recovery bewegt jeden Coin, der jetzt ausgebbar ist, damit eine Stufe vor dem Öffnen der nächsten zurückgesetzt werden kann. Eine Stufe oder alle offenen Coins. Markierte Schlüssel wählen die passenden Coins; markierte Coins zeigen die nötigen Schlüssel.',
+    '- Beim Signieren der Recovery ist ein Schlüssel und ein Transport an der Reihe. Jede Transaktion wird gesendet, signiert und importiert, bevor die nächste kommt. Per Datei landen alle offenen PSBTs in einer Zip. Coins mit demselben Tag können eine Transaktion werden, pro Coin oder alle auf einmal. Der Ledger registriert den Descriptor bei der ersten Transaktion, falls er noch fehlt.',
   ].join('\n'),
   es_ES: [
     'Desde 0.1.33.',
@@ -36,6 +38,7 @@ const notes = {
     '- Una clave sin bloqueo temporal es singlesig SegWit nativo (wpkh). Un wsh(pk) importado se conserva. Finalizar puede borrar la PSBT cargada. Electrum y RPC pueden ser un servidor remoto; el diálogo avisa de que hay que confiar en él.',
     '- La exportación BSMS sigue a Nunchuk: la ruta queda en el descriptor, la línea siguiente es "No path restrictions" y la última es la primera dirección de recepción. Los nombres de las claves solo van en el archivo de claves y en wallet.json. Las etiquetas de monedas van ahí y en el archivo de etiquetas; la importación pregunta antes de sustituir una etiqueta. Ya no se descargan JSON de Ledger ni BitBox.',
     '- La recuperación por etapas mueve cada moneda que ya se puede gastar, para reiniciar una etapa antes de que abra la siguiente. Una etapa o todas las monedas abiertas. Las claves marcadas eligen esas monedas; las monedas marcadas muestran las claves necesarias.',
+    '- Firmar la recuperación va de una clave y un transporte a la vez. Cada transacción se envía, se firma y se importa antes de la siguiente. Por archivo, todas las PSBT abiertas van en un zip. Las monedas con la misma etiqueta pueden juntarse en una transacción, por moneda o todas a la vez. El Ledger registra el descriptor en la primera transacción si aún no está.',
   ].join('\n'),
   pl_PL: [
     'Od 0.1.33.',
@@ -48,6 +51,7 @@ const notes = {
     '- Jeden klucz bez blokady czasowej to natywny singlesig SegWit (wpkh). Zaimportowane wsh(pk) zostaje tym deskryptorem. Finalizacja może usunąć wczytane PSBT. Electrum i RPC mogą być zdalnym serwerem; okno ostrzega, że trzeba mu ufać.',
     '- Eksport BSMS jak w Nunchuk: ścieżka zostaje w deskryptorze, następna linia to „No path restrictions”, ostatnia to pierwszy adres odbioru. Nazwy kluczy tylko w pliku kluczy i w wallet.json. Tagi monet są tam i w pliku etykiet; import pyta, zanim nadpisze tag. Pliki JSON Ledger i BitBox nie są już pobierane.',
     '- Odzyskiwanie etapów przenosi każdą monetę, którą da się teraz wydać, żeby zresetować etap, zanim otworzy się następny. Jeden etap albo wszystkie otwarte monety. Zaznaczone klucze wybierają te monety; zaznaczone monety pokazują potrzebne klucze.',
+    '- Podpisywanie odzyskiwania idzie po jednym kluczu i jednym transporcie. Każda transakcja jest wysyłana, podpisywana i importowana, zanim przyjdzie następna. Plik pobiera wszystkie otwarte PSBT w jednym zipie. Monety z tym samym tagiem mogą wejść do jednej transakcji, pojedynczo albo wszystkie naraz. Ledger rejestruje deskryptor przy pierwszej transakcji, jeśli go jeszcze nie ma.',
   ].join('\n'),
   fr_FR: [
     'Depuis 0.1.33.',
@@ -60,11 +64,12 @@ const notes = {
     '- Une clé sans verrou temporel est un singlesig SegWit natif (wpkh). Un wsh(pk) importé reste ce descripteur. Finaliser peut effacer la PSBT chargée. Electrum et RPC peuvent être un serveur distant ; le dialogue avertit qu’il faut lui faire confiance.',
     '- L’export BSMS suit Nunchuk : le chemin reste dans le descripteur, la ligne suivante est « No path restrictions » et la dernière est la première adresse de réception. Les noms de clés ne sont que dans le fichier de clés et wallet.json. Les tags de pièces y sont et dans le fichier d’étiquettes ; l’import demande avant de remplacer un tag. Les fichiers JSON Ledger et BitBox ne sont plus téléchargés.',
     '- La récupération par étape déplace chaque pièce dépensable maintenant, pour remettre une étape à zéro avant que la suivante s’ouvre. Une étape ou toutes les pièces ouvertes. Les clés cochées sélectionnent ces pièces ; les pièces cochées indiquent les clés nécessaires.',
+    '- La signature de récupération se fait une clé et un transport à la fois. Chaque transaction est envoyée, signée et importée avant la suivante. Par fichier, toutes les PSBT ouvertes partent dans un zip. Les pièces qui partagent un tag peuvent former une seule transaction, pièce par pièce ou toutes à la fois. Le Ledger enregistre le descripteur à la première transaction s’il n’y est pas encore.',
   ].join('\n'),
 }
 
 export const current = VersionInfo.of({
-  version: '0.1.59:0',
+  version: '0.1.60:0',
   releaseNotes: notes,
   migrations: {
     up: async ({ effects }) => {},
