@@ -16,6 +16,7 @@ const notes = {
     '- No timelock sits beside By stage. Coins without a timelock stay in the stage list and show when the next stage opens. One button builds every PSBT and one signs them. Descriptor, Miniscript, BSMS and PSBT can be a still QR or a QR video. Checking UTXOs is in the watch-only card. The transaction QR video plays every fountain part and shows a frame counter, for example 3/13. Specter DIY can finish a PSBT that needs more than eight frames.',
     '- A coin tag starts that UTXO line, not the address. Used empty addresses leave the list and open from a button. Downloads use the policy name when one is set, and stay scriptwerk- otherwise. Recovery can send each signed transaction, or all of them next to Sign all.',
     '- Before a send, one line shows the amount, destination and fee. A sent transaction stays marked until the coin has left the old address, then it disappears. No history. Send turns on once a path is fully signed: partial signatures become the final witness. That witness uses the branch whose locktime matches the transaction, so a later signed stage is not spent on the open path. The fee counts the whole witness script, including later stages, so the sat/vB rate is not short.',
+    '- Descriptions are shorter. The fee line says the virtual size is an estimate. Four build libraries are pinned to versions without the reported denial-of-service issues; the running service does not use them.',
   ].join('\n'),
   de_DE: [
     'Seit 0.1.33.',
@@ -32,6 +33,7 @@ const notes = {
     '- Ohne Timelock steht neben Nach Stufe. Coins ohne Timelock bleiben in der Stufenliste und zeigen, wann die nächste Stufe aufgeht. Ein Knopf erzeugt alle PSBTs, einer signiert sie. Descriptor, Miniscript, BSMS und PSBT können ein fester QR oder ein Video-QR sein. UTXOs prüfen steht in der Watch-only-Kachel. Das QR-Video einer Transaktion spielt alle Fountain-Teile und zeigt einen Framezähler, zum Beispiel 3/13. Specter DIY kann eine PSBT zu Ende lesen, die mehr als acht Frames braucht.',
     '- Der Tag eines Coins steht am Anfang der UTXO-Zeile, nicht an der Adresse. Benutzte leere Adressen verlassen die Liste und öffnen sich über einen Knopf. Downloads nutzen den Policy-Namen, wenn einer gesetzt ist, sonst bleibt scriptwerk-. Die Recovery kann jede signierte Transaktion senden, oder alle neben Alle signieren.',
     '- Vor dem Senden zeigt eine Zeile Betrag, Ziel und Gebühr. Eine gesendete Transaktion bleibt markiert, bis der Coin die alte Adresse verlassen hat, und verschwindet dann. Keine Historie. Senden wird aktiv, sobald ein Pfad vollständig signiert ist: Einzelsignaturen werden zum fertigen Witness. Der Witness nimmt die Stufe, deren Locktime zur Transaktion passt, damit eine später signierte Stufe nicht auf dem offenen Pfad ausgegeben wird. Die Gebühr rechnet das ganze Witness-Skript, inklusive späterer Stufen, damit der sat/vB-Satz nicht zu niedrig liegt.',
+    '- Die Beschreibungen sind kürzer. An der Gebühr steht, dass die virtuelle Größe geschätzt ist. Vier Bau-Bibliotheken stehen auf Ständen ohne die gemeldeten Absturzfehler; der laufende Dienst nutzt sie nicht.',
   ].join('\n'),
   es_ES: [
     'Desde 0.1.33.',
@@ -48,6 +50,7 @@ const notes = {
     '- Sin timelock está junto a Por etapa. Las monedas sin timelock siguen en la lista y muestran cuándo abre la siguiente. Un botón crea todas las PSBT y otro las firma. Descriptor, Miniscript, BSMS y PSBT pueden ser un QR fijo o un vídeo QR. Comprobar UTXOs está en la tarjeta watch-only. El vídeo QR de una transacción recorre todas las partes fountain y muestra un contador, por ejemplo 3/13. Specter DIY puede terminar una PSBT que necesita más de ocho frames.',
     '- La etiqueta de una moneda va al inicio de la línea del UTXO, no en la dirección. Las direcciones usadas y vacías salen de la lista y se abren con un botón. Las descargas usan el nombre de la policy si hay uno, y si no siguen siendo scriptwerk-. La recuperación puede enviar cada transacción firmada, o todas junto a Firmar todo.',
     '- Antes de enviar, una línea muestra importe, destino y comisión. Una transacción enviada queda marcada hasta que la moneda deja la dirección antigua y entonces desaparece. Sin historial. Enviar se activa cuando un camino está firmado por completo: las firmas parciales se convierten en el witness final. Ese witness usa la etapa cuya locktime coincide con la transacción, así que una etapa posterior firmada no se gasta en el camino abierto. La comisión cuenta el script witness entero, etapas posteriores incluidas, para que la tasa sat/vB no quede corta.',
+    '- Las descripciones son más cortas. La línea de la comisión indica que el tamaño virtual es una estimación. Cuatro bibliotecas de compilación quedan fijadas sin los fallos de denegación de servicio avisados; el servicio en marcha no las usa.',
   ].join('\n'),
   pl_PL: [
     'Od 0.1.33.',
@@ -64,6 +67,7 @@ const notes = {
     '- Bez timelocka jest obok Według etapu. Monety bez timelocka zostają na liście i pokazują, kiedy otworzy się następny. Jeden przycisk tworzy wszystkie PSBT, drugi je podpisuje. Deskryptor, Miniscript, BSMS i PSBT mogą być nieruchomym QR albo wideo QR. Sprawdzanie UTXO jest na kafelku watch-only. Wideo QR transakcji odtwarza wszystkie części fountain i pokazuje licznik, na przykład 3/13. Specter DIY może dokończyć PSBT, które potrzebuje więcej niż osiem klatek.',
     '- Tag monety jest na początku wiersza UTXO, nie przy adresie. Użyte puste adresy znikają z listy i otwierają się przyciskiem. Pobrania używają nazwy policy, gdy jest ustawiona, inaczej zostaje scriptwerk-. Odzyskiwanie może wysłać każdą podpisaną transakcję albo wszystkie obok Podpisz wszystkie.',
     '- Przed wysłaniem jedna linia pokazuje kwotę, cel i opłatę. Wysłana transakcja jest oznaczona, aż moneta opuści stary adres, i wtedy znika. Bez historii. Wyślij włącza się, gdy ścieżka jest w pełni podpisana: częściowe podpisy stają się gotowym witness. Ten witness bierze etap, którego locktime pasuje do transakcji, więc późniejszy podpisany etap nie jest wydawany na otwartej ścieżce. Opłata liczy cały skrypt witness, łącznie z późniejszymi etapami, żeby stawka sat/vB nie była za niska.',
+    '- Opisy są krótsze. Przy opłacie widać, że wirtualny rozmiar jest szacowany. Cztery biblioteki budowania są przypięte do wersji bez zgłoszonych błędów odmowy usługi; działająca usługa ich nie używa.',
   ].join('\n'),
   fr_FR: [
     'Depuis 0.1.33.',
@@ -80,11 +84,12 @@ const notes = {
     '- Sans timelock est à côté de Par étape. Les pièces sans timelock restent dans la liste et indiquent quand la suivante s’ouvre. Un bouton crée toutes les PSBT, un autre les signe. Descripteur, Miniscript, BSMS et PSBT peuvent être un QR fixe ou une vidéo QR. Vérifier les UTXO se fait dans la tuile watch-only. La vidéo QR d’une transaction joue toutes les parties fountain et affiche un compteur, par exemple 3/13. Specter DIY peut finir une PSBT qui demande plus de huit images.',
     '- Le tag d’une pièce est au début de la ligne UTXO, pas sur l’adresse. Les adresses utilisées et vides quittent la liste et s’ouvrent par un bouton. Les téléchargements utilisent le nom de la policy s’il est défini, sinon ils restent scriptwerk-. La récupération peut envoyer chaque transaction signée, ou toutes à côté de Tout signer.',
     '- Avant l’envoi, une ligne montre le montant, la destination et les frais. Une transaction envoyée reste marquée jusqu’à ce que la pièce quitte l’ancienne adresse, puis elle disparaît. Pas d’historique. Envoyer s’active dès qu’un chemin est entièrement signé : les signatures partielles deviennent le witness final. Ce witness prend l’étape dont le locktime correspond à la transaction, donc une étape plus tardive déjà signée n’est pas dépensée sur le chemin ouvert. Les frais comptent le script witness entier, étapes suivantes comprises, pour que le taux sat/vB ne soit pas trop bas.',
+    '- Les descriptions sont plus courtes. La ligne des frais indique que la taille virtuelle est une estimation. Quatre bibliothèques de construction sont figées sans les défauts de déni de service signalés ; le service en marche ne les utilise pas.',
   ].join('\n'),
 }
 
 export const current = VersionInfo.of({
-  version: '0.1.71:0',
+  version: '0.1.73:0',
   releaseNotes: notes,
   migrations: {
     up: async ({ effects }) => {},
