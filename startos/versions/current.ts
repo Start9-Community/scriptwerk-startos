@@ -2,6 +2,8 @@ import { IMPOSSIBLE, VersionInfo } from '@start9labs/start-sdk'
 
 const notes = {
   en_US: [
+    'Updates Node.js to 22.23.4 with security fixes and the Start SDK to 3.1.0. Node.js release notes: https://nodejs.org/en/blog/release/v22.23.4',
+    '',
     'Since 0.1.33.',
     '',
     '- The Web UI asks for a username and password before it starts. Run Set Web UI Password and save what it shows. The username is admin. This blocks start on a fresh install and on an update from 0.1.33. The password is backed up with the service; designs are not.',
@@ -19,6 +21,8 @@ const notes = {
     '- Descriptions are shorter. The fee line says the virtual size is an estimate. Four build libraries are pinned to versions without the reported denial-of-service issues; the running service does not use them.',
   ].join('\n'),
   de_DE: [
+    'Aktualisiert Node.js auf 22.23.4 mit Sicherheitskorrekturen und das Start SDK auf 3.1.0. Node.js-Versionshinweise: https://nodejs.org/en/blog/release/v22.23.4',
+    '',
     'Seit 0.1.33.',
     '',
     '- Die Web-UI verlangt vor dem Start Benutzername und Passwort. Set Web UI Password ausführen und das Gezeigte speichern. Der Benutzername ist admin. Das blockiert den Start bei einer Neuinstallation und beim Update von 0.1.33. Das Passwort liegt im Backup, die Entwürfe nicht.',
@@ -36,6 +40,8 @@ const notes = {
     '- Die Beschreibungen sind kürzer. An der Gebühr steht, dass die virtuelle Größe geschätzt ist. Vier Bau-Bibliotheken stehen auf Ständen ohne die gemeldeten Absturzfehler; der laufende Dienst nutzt sie nicht.',
   ].join('\n'),
   es_ES: [
+    'Actualiza Node.js a 22.23.4 con correcciones de seguridad y el Start SDK a 3.1.0. Notas de Node.js: https://nodejs.org/en/blog/release/v22.23.4',
+    '',
     'Desde 0.1.33.',
     '',
     '- La interfaz web pide usuario y contraseña antes de arrancar. Ejecuta Set Web UI Password y guarda lo que muestra. El usuario es admin. Esto bloquea el arranque en una instalación nueva y al actualizar desde 0.1.33. La contraseña se incluye en la copia de seguridad; los diseños no.',
@@ -53,6 +59,8 @@ const notes = {
     '- Las descripciones son más cortas. La línea de la comisión indica que el tamaño virtual es una estimación. Cuatro bibliotecas de compilación quedan fijadas sin los fallos de denegación de servicio avisados; el servicio en marcha no las usa.',
   ].join('\n'),
   pl_PL: [
+    'Aktualizuje Node.js do 22.23.4 z poprawkami bezpieczeństwa oraz Start SDK do 3.1.0. Informacje o wydaniu Node.js: https://nodejs.org/en/blog/release/v22.23.4',
+    '',
     'Od 0.1.33.',
     '',
     '- Interfejs WWW pyta o nazwę użytkownika i hasło, zanim wystartuje. Uruchom Set Web UI Password i zapisz to, co pokaże. Nazwa użytkownika to admin. To blokuje start przy świeżej instalacji i przy aktualizacji z 0.1.33. Hasło jest w kopii zapasowej; projekty nie.',
@@ -70,6 +78,8 @@ const notes = {
     '- Opisy są krótsze. Przy opłacie widać, że wirtualny rozmiar jest szacowany. Cztery biblioteki budowania są przypięte do wersji bez zgłoszonych błędów odmowy usługi; działająca usługa ich nie używa.',
   ].join('\n'),
   fr_FR: [
+    'Met à jour Node.js vers 22.23.4 avec des correctifs de sécurité et le Start SDK vers 3.1.0. Notes de version Node.js : https://nodejs.org/en/blog/release/v22.23.4',
+    '',
     'Depuis 0.1.33.',
     '',
     '- L’interface web demande un nom d’utilisateur et un mot de passe avant de démarrer. Lancez Set Web UI Password et enregistrez ce qu’il affiche. Le nom d’utilisateur est admin. Cela bloque le démarrage à la première installation et lors d’une mise à jour depuis 0.1.33. Le mot de passe est dans la sauvegarde ; les projets ne le sont pas.',
