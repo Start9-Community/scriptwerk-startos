@@ -89,7 +89,7 @@ const notes = {
 }
 
 export const current = VersionInfo.of({
-  version: '0.1.73:0',
+  version: '0.1.73:1',
   releaseNotes: notes,
   migrations: {
     up: async ({ effects }) => {},
