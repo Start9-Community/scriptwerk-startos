@@ -1,5 +1,10 @@
 import { FileHelper } from '@start9labs/start-sdk'
-import { rpcHostId, rpcPort } from 'bitcoin-core-startos/startos/utils'
+import {
+  rpcCookieName,
+  rpcHostId,
+  rpcPort,
+  rpcVolumeId,
+} from 'bitcoin-core-startos/startos/utils'
 import {
   electrumHostId as electrsHostId,
   port as electrsPort,
@@ -44,7 +49,7 @@ export const main = sdk.setupMain(async ({ effects }) => {
   if (bitcoindRpc) {
     mounts = mounts.mountDependency({
       dependencyId: 'bitcoind',
-      volumeId: 'main',
+      volumeId: rpcVolumeId,
       subpath: null,
       mountpoint: '/mnt/bitcoind',
       readonly: true,
@@ -60,7 +65,9 @@ export const main = sdk.setupMain(async ({ effects }) => {
   // Restart only when bitcoind writes a replacement cookie — an absent cookie
   // means bitcoind is down.
   const cookie = bitcoindRpc
-    ? await FileHelper.string(`${await scriptwerk.rootfs}/mnt/bitcoind/.cookie`)
+    ? await FileHelper.string(
+        `${await scriptwerk.rootfs}/mnt/bitcoind/${rpcCookieName}`,
+      )
         .read(
           (cookie) => cookie,
           (prev, next) => next === null || prev === next,
