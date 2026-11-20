@@ -20,14 +20,24 @@ import { uiPort } from './utils'
 export const main = sdk.setupMain(async ({ effects }) => {
   console.info(i18n('Starting Scriptwerk'))
 
-  const bitcoindRpc = await sdk.host
-    .getBridgeAddress(effects, {
-      packageId: 'bitcoind',
-      hostId: rpcHostId,
-      internalPort: rpcPort,
-      ssl: false,
-    })
+  // An older Bitcoin without the public volume would fail the mount, and with it the service.
+  const hasRpcVolume = await sdk
+    .getServiceManifest(
+      effects,
+      'bitcoind',
+      (manifest) => manifest?.volumes.includes(rpcVolumeId) ?? false,
+    )
     .const()
+  const bitcoindRpc = hasRpcVolume
+    ? await sdk.host
+        .getBridgeAddress(effects, {
+          packageId: 'bitcoind',
+          hostId: rpcHostId,
+          internalPort: rpcPort,
+          ssl: false,
+        })
+        .const()
+    : null
   const fulcrum = await sdk.host
     .getBridgeAddress(effects, {
       packageId: 'fulcrum',

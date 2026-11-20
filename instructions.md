@@ -17,7 +17,7 @@ Nothing you design is stored on the server. Policies, key names and saved design
 3. Build a policy from the **Stages** tab, or import a descriptor, miniscript, BSMS or Scriptwerk JSON file.
 4. To check the policy against your node, open the **Node** dialog: with Bitcoin installed it is already connected. **Unlock** lets you point it at a different node, including a remote one; the studio warns that you have to trust a server outside your network. **Reset** returns to the one on this server.
 
-Install Bitcoin, Fulcrum or Electrs at any time — Scriptwerk restarts on its own to pick them up.
+Install Bitcoin, Fulcrum or Electrs at any time — Scriptwerk restarts on its own to pick them up. If StartOS asks you to update Bitcoin, Scriptwerk works without your node until you do.
 
 ## Using Scriptwerk
 

@@ -55,7 +55,7 @@ The server is a Nitro node-server on port 8080 serving the studio and two small 
 
 One volume, `startos`, holding the package's `store.json`; nothing of it is mounted into the container. Scriptwerk itself keeps every policy, key name and saved design in the browser's `localStorage` on the device that opened it, and the server keeps no application state.
 
-When Bitcoin is installed, its `public` volume, which holds the RPC cookie Bitcoin publishes for dependents and none of its chain or wallet data, is mounted read-only at `/mnt/bitcoind` so the package can read `.cookie`. The mount is only declared while Bitcoin is present.
+When Bitcoin is installed, its `public` volume, which holds the RPC cookie Bitcoin publishes for dependents and none of its chain or wallet data, is mounted read-only at `/mnt/bitcoind` so the package can read `.cookie`. The mount, and with it the Bitcoin wiring, is only declared while the installed Bitcoin's manifest declares that volume: an older Bitcoin leaves Scriptwerk running without its node, and updating Bitcoin restarts Scriptwerk to pick it up.
 
 ## File Models
 
@@ -79,8 +79,6 @@ Three optional dependencies; the service runs without any of them.
 | Bitcoin    | No       | `bitcoind`                 | `public` at `/mnt/bitcoind`, read-only | `getdescriptorinfo` and address derivation on the user's node |
 | Fulcrum    | No       | `primary`, `sync-progress` | none                                   | Coin lookup for a watch-only policy — preferred               |
 | Electrs    | No       | `electrs`, `sync`          | none                                   | Coin lookup when Fulcrum is not installed                     |
-
-Bitcoin must be at least 28.4:29, 29.4:16, 30.3:16 or 31.1:16 on its major line, or Bitcoin Knots (pre-RDTS) 29.3:29; Fulcrum at least 2.1.1:8; Electrs at least 0.11.1:11.
 
 Each is declared as current only while it is installed, so an absent optional dependency raises no warning. Bitcoin is reached at its RPC binding's bridge address and authenticated with its cookie; no RPC user is created on the node. When both Electrum servers are installed the package picks Fulcrum, and there is no setting to prefer Electrs. Dependencies resolved after Scriptwerk starts heal it: installing or removing one restarts the service once.
 
